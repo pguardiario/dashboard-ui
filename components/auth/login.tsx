@@ -13,16 +13,21 @@ export const Login = () => {
   const router = useRouter();
 
   const initialValues: LoginFormType = {
-    email: "admin@acme.com",
-    password: "admin",
+    email: "",
+    password: "",
+    // workshopId: "",
   };
 
   const handleLogin = useCallback(
     async (values: LoginFormType) => {
       // `values` contains email & password. You can use provider to connect user
+      let ok = await createAuthCookie(values);
+      if(ok){
+        router.replace("/");
+      } else {
+        alert("bad login")
+      }
 
-      await createAuthCookie();
-      router.replace("/");
     },
     [router]
   );
@@ -38,6 +43,15 @@ export const Login = () => {
         {({ values, errors, touched, handleChange, handleSubmit }) => (
           <>
             <div className='flex flex-col w-1/2 gap-4 mb-4'>
+            {/* <Input
+                variant='bordered'
+                label='Workshop ID'
+                type='text'
+                value={values.workshopId}
+                isInvalid={!!errors.workshopId && !!touched.workshopId}
+                errorMessage={errors.workshopId}
+                onChange={handleChange("workshopId")}
+              /> */}
               <Input
                 variant='bordered'
                 label='Email'
@@ -57,7 +71,7 @@ export const Login = () => {
                 onChange={handleChange("password")}
               />
             </div>
-
+{/* {JSON.stringify({values, errors, touched})} */}
             <Button
               onPress={() => handleSubmit()}
               variant='flat'
@@ -68,12 +82,12 @@ export const Login = () => {
         )}
       </Formik>
 
-      <div className='font-light text-slate-400 mt-4 text-sm'>
+      {/* <div className='font-light text-slate-400 mt-4 text-sm'>
         Don&apos;t have an account ?{" "}
         <Link href='/register' className='font-bold'>
           Register here
         </Link>
-      </div>
+      </div> */}
     </>
   );
 };

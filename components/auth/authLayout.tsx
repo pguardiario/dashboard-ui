@@ -23,7 +23,7 @@ export const AuthLayoutWrapper = ({ children }: Props) => {
         <Divider orientation='vertical' />
       </div>
 
-      <div className='hidden md:flex flex-1 relative flex items-center justify-center p-6'>
+      <div className='hidden md:flex flex-1 relative items-center justify-center p-6'>
         <div className='absolute left-0 right-0 bottom-0 top-0 z-0'>
           <Image
             className='w-full h-full'
@@ -33,7 +33,7 @@ export const AuthLayoutWrapper = ({ children }: Props) => {
         </div>
 
         <div className='z-10'>
-          <h1 className='font-bold text-[45px]'>NextUI Dashboard Template</h1>
+          <h1 className='font-bold text-[45px]'>Tire Shop</h1>
           <div className='font-light text-slate-400 mt-4'>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi
             possimus voluptate, sapiente assumenda deserunt repellendus,

@@ -5,6 +5,8 @@ export const LoginSchema = object().shape({
     .email("This field must be an email")
     .required("Email is required"),
   password: string().required("Password is required"),
+  // workshopId: string().required("Workshop ID is required"),
+
 });
 
 export const RegisterSchema = object().shape({

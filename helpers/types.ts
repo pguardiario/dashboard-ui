@@ -3,6 +3,7 @@
 export type LoginFormType = {
   email: string;
   password: string;
+  // workshopId: string;
 };
 
 export type RegisterFormType = {

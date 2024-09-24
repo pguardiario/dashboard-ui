@@ -34,9 +34,9 @@ export const SidebarWrapper = () => {
           collapsed: collapsed,
         })}
       >
-        <div className={Sidebar.Header()}>
+        {/* <div className={Sidebar.Header()}>
           <CompaniesDropdown />
-        </div>
+        </div> */}
         <div className="flex flex-col justify-between h-full">
           <div className={Sidebar.Body()}>
             <SidebarItem
@@ -47,22 +47,30 @@ export const SidebarWrapper = () => {
             />
             <SidebarMenu title="Main Menu">
               <SidebarItem
-                isActive={pathname === "/accounts"}
-                title="Accounts"
+                isActive={pathname === "/jobs"}
+                title="Jobs"
                 icon={<AccountsIcon />}
                 href="accounts"
               />
+
+
               <SidebarItem
-                isActive={pathname === "/payments"}
-                title="Payments"
+                isActive={pathname === "/diary"}
+                title="Diary"
                 icon={<PaymentsIcon />}
+              />
+              <SidebarItem
+                isActive={pathname === "/datire"}
+                title="Datire"
+                icon={<PaymentsIcon />}
+                href="datire"
               />
               <CollapseItems
                 icon={<BalanceIcon />}
-                items={["Banks Accounts", "Credit Cards", "Loans"]}
-                title="Balances"
+                items={["Customers & Vehicles", "Invoices & Bills", "Inventory & Suppliers", "Service Schedules", "Reports", "Timesheets", "POS", "Settings", "Help"]}
+                title="More"
               />
-              <SidebarItem
+              {/* <SidebarItem
                 isActive={pathname === "/customers"}
                 title="Customers"
                 icon={<CustomersIcon />}
@@ -76,20 +84,21 @@ export const SidebarWrapper = () => {
                 isActive={pathname === "/reports"}
                 title="Reports"
                 icon={<ReportsIcon />}
-              />
+              /> */}
             </SidebarMenu>
 
             <SidebarMenu title="General">
               <SidebarItem
-                isActive={pathname === "/developers"}
-                title="Developers"
+                isActive={pathname === "/suppliers"}
+                title="Suppliers"
                 icon={<DevIcon />}
+                href="suppliers"
               />
-              <SidebarItem
+              {/* <SidebarItem
                 isActive={pathname === "/view"}
                 title="View Test Data"
                 icon={<ViewIcon />}
-              />
+              /> */}
               <SidebarItem
                 isActive={pathname === "/settings"}
                 title="Settings"
@@ -111,7 +120,7 @@ export const SidebarWrapper = () => {
                 <SettingsIcon />
               </div>
             </Tooltip>
-            <Tooltip content={"Adjustments"} color="primary">
+            {/* <Tooltip content={"Adjustments"} color="primary">
               <div className="max-w-fit">
                 <FilterIcon />
               </div>
@@ -121,7 +130,7 @@ export const SidebarWrapper = () => {
                 src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
                 size="sm"
               />
-            </Tooltip>
+            </Tooltip> */}
           </div>
         </div>
       </div>

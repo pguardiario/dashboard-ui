@@ -1,5 +1,5 @@
 import { Input, Link, Navbar, NavbarContent } from "@nextui-org/react";
-import React from "react";
+import React, { useEffect } from "react";
 import { FeedbackIcon } from "../icons/navbar/feedback-icon";
 import { GithubIcon } from "../icons/navbar/github-icon";
 import { SupportIcon } from "../icons/navbar/support-icon";
@@ -7,12 +7,19 @@ import { SearchIcon } from "../icons/searchicon";
 import { BurguerButton } from "./burguer-button";
 import { NotificationsDropdown } from "./notifications-dropdown";
 import { UserDropdown } from "./user-dropdown";
+import { useCookies } from 'react-cookie';
 
 interface Props {
   children: React.ReactNode;
 }
 
 export const NavbarWrapper = ({ children }: Props) => {
+  const [cookies, setCookie, removeCookie] = useCookies(['user']);
+
+  useEffect(() => {
+    console.log('Cookies: ', cookies);
+  }, [cookies]);
+
   return (
     <div className="relative flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
       <Navbar
@@ -53,13 +60,13 @@ export const NavbarWrapper = ({ children }: Props) => {
           </div>
 
           <Link
-            href="https://github.com/Siumauricio/nextui-dashboard-template"
-            target={"_blank"}
+            href="/"
+            // target={"_blank"}
           >
             <GithubIcon />
           </Link>
           <NavbarContent>
-            <UserDropdown />
+            <UserDropdown cookies={cookies}/>
           </NavbarContent>
         </NavbarContent>
       </Navbar>

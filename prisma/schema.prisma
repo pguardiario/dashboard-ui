@@ -1,0 +1,109 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model users {
+  id             Int       @id @default(autoincrement())
+  email          String    @unique
+  name           String
+  password       String
+  date           DateTime? @db.Date
+  subscriptionId String?
+  confirmed      Boolean   @default(false)
+  address        String?
+  markup         String?
+  abn            String?
+  phone          String?
+  stripe_id      String?
+  hasCredit      Boolean?
+  suppliers      Json?
+}
+
+model accounts {
+  id        Int      @id @default(autoincrement())
+  website   String
+  supplier  String   @unique
+  username  String
+  password  String
+  updatedAt DateTime
+}
+
+model confirm_tokens {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  token     String
+  updatedAt DateTime
+}
+
+model intents {
+  id        Int       @id @default(autoincrement())
+  userId    String
+  intentId  String
+  status    String
+  createdAt DateTime?
+  orderId   Int
+}
+
+model orders {
+  id            Int       @id @default(autoincrement())
+  userId        Int
+  order         Json
+  status        String
+  purchaseOrder String
+  createdAt     DateTime?
+  shippedAt     DateTime?
+  invoice_url   String?
+}
+
+model reset_tokens {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  token     String
+  updatedAt DateTime
+}
+
+model searches {
+  id      Int      @id @default(autoincrement())
+  userId  Int
+  keyword String
+  date    DateTime
+}
+
+model settings {
+  id        Int  @id @default(autoincrement())
+  userId    Int  @unique
+  suppliers Json
+}
+
+model subscriptions {
+  id              String   @id
+  start_time      DateTime
+  create_time     DateTime
+  links           Json
+  plan_overridden Boolean
+  plan_id         String
+  status          String
+}
+
+model tires {
+  id          Int      @id @default(autoincrement())
+  itemNumber  String
+  description String?
+  type        String?
+  rrp         Float?
+  net         Float?
+  stock       Int
+  image       String?
+  supplier    String
+  brand       String?
+  lastChecked DateTime
+  guid        String?
+  link        String?
+
+  @@unique([supplier, itemNumber])
+}
