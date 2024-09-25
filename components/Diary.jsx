@@ -1,5 +1,5 @@
 "use client"
-import { Button, Divider, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@nextui-org/react";
+import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@nextui-org/react";
 import { useSidebarContext } from "./layout/layout-context";
 
 import { generateQuoteMap } from './dnd/mockData';
@@ -97,7 +97,7 @@ export default function Diary({ data }) {
 
   return <div className={`${collapsed ? "" : "ml-[250px]"} p-6 space-y-3`}>
     <h1>Diary</h1>
-    <Divider />
+    <hr/>
 
     <div className="flex">
       <div className="flex-1">

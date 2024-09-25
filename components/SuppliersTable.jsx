@@ -1,5 +1,4 @@
 "use client"
-import { Divider, Link } from "@nextui-org/react";
 
 import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, getKeyValue } from "@nextui-org/react";
 import { useCallback } from "react";
@@ -43,7 +42,7 @@ export default function SuppliersTable({ rows }) {
 
   return <div className={`${collapsed ? "" : "ml-[250px]" } p-6 space-y-3`}>
     <h1>Suppliers</h1>
-    <Divider />
+    <hr/>
     {/* {suppliers.map((supplier, i) => <div key={i}>
       <Link target="_blank" href={supplier.website} className="hover:bg-blue-200 px-4">{supplier.supplier}</Link>
     </div>)} */}
