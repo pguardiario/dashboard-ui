@@ -26,12 +26,14 @@ export const SidebarWrapper = () => {
 
   return (
     <aside className="h-screen z-[20] sticky top-0">
+      {/* {collapsed ? "yes" : "no"} */}
+
       {/* {collapsed ? (
         <div className={Sidebar.Overlay()} onClick={setCollapsed} />
       ) : null} */}
       <div
         className={Sidebar({
-          collapsed: collapsed,
+          collapsed: !collapsed,
         })}
       >
         {/* <div className={Sidebar.Header()}>

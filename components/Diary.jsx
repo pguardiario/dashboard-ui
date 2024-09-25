@@ -95,7 +95,7 @@ export default function Diary({ data }) {
 
   let numJobs = Object.keys(filtered).map(k => filtered[k]).flat().length
 
-  return <div className={`${collapsed ? "ml-[250px]" : ""} p-6 space-y-3`}>
+  return <div className={`${collapsed ? "" : "ml-[250px]"} p-6 space-y-3`}>
     <h1>Diary</h1>
     <Divider />
 

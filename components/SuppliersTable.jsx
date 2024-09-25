@@ -41,7 +41,7 @@ export default function SuppliersTable({ rows }) {
   }, []);
 
 
-  return <div className={`${collapsed ? "ml-[250px]" : "" } p-6 space-y-3`}>
+  return <div className={`${collapsed ? "" : "ml-[250px]" } p-6 space-y-3`}>
     <h1>Suppliers</h1>
     <Divider />
     {/* {suppliers.map((supplier, i) => <div key={i}>
