@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@atlaskit/theme": "10.0.5",
+    "@nextui-org/divider": "^2.0.32",
     "@nextui-org/react": "2.0.22",
     "@nextui-org/system": "^2.2.6",
     "@prisma/client": "^5.19.1",
