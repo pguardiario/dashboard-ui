@@ -26,9 +26,9 @@ export const SidebarWrapper = () => {
 
   return (
     <aside className="h-screen z-[20] sticky top-0">
-      {collapsed ? (
+      {/* {collapsed ? (
         <div className={Sidebar.Overlay()} onClick={setCollapsed} />
-      ) : null}
+      ) : null} */}
       <div
         className={Sidebar({
           collapsed: collapsed,
@@ -37,6 +37,7 @@ export const SidebarWrapper = () => {
         {/* <div className={Sidebar.Header()}>
           <CompaniesDropdown />
         </div> */}
+
         <div className="flex flex-col justify-between h-full">
           <div className={Sidebar.Body()}>
             <SidebarItem
@@ -58,6 +59,7 @@ export const SidebarWrapper = () => {
                 isActive={pathname === "/diary"}
                 title="Diary"
                 icon={<PaymentsIcon />}
+                href="diary"
               />
               <SidebarItem
                 isActive={pathname === "/datire"}
