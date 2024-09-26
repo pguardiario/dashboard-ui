@@ -2,9 +2,16 @@ import { NextResponse } from "next/server";
 import prisma from "@/src/db"
 
 export async function GET(req) {
-  debugger
-  console.log(req.query)
+
   let q = req.nextUrl.searchParams.get("q")
+  if(!q || q.length < 3){
+    return NextResponse.json({
+      count: 0,
+      next: null,
+      previous: null,
+      results: []
+    });
+  }
   const model = req.nextUrl.searchParams.get("model")
 
   q = q.replace(/[^\w ]/g, '')
@@ -12,9 +19,11 @@ export async function GET(req) {
 
     where: {
       name: {
-        search: q,
+        contains: q,
+        mode: 'insensitive',
       },
     },
+    take: 10
   })
 
 

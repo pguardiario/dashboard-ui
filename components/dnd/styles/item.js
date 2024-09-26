@@ -154,7 +154,7 @@ function QuoteItem(props) {
       // href={quote.author.url}
       isDragging={isDragging}
       isGroupedOver={isGroupedOver}
-      isClone={isClone}
+      // isClone={isClone}
       // colors={quote.author.colors}
       ref={provided.innerRef}
       {...provided.draggableProps}

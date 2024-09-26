@@ -42,6 +42,17 @@ const columnMap = {
 }
 
 async function run() {
+  const results = await prisma.customers.findMany({
+
+    where: {
+      name: {
+        contains: "joh",
+        mode: 'insensitive',
+      },
+    },
+    take: 10
+  })
+  debugger
 
   const result = await prisma.customers.findMany({
     where: {

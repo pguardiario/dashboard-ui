@@ -26,9 +26,13 @@ export default function Suggest({model, onChange}) {
       variant="bordered"
       onInputChange={x => {
         list.setFilterText(x)
-        console.log({list})
+
+        // console.log({list})
       }}
-      onSelectionChange={(name) => onChange(list.items.find(x => x.name === name))}
+      onSelectionChange={(name) => {
+        onChange(list.items.find(x => x.name === name))
+        // list.close()
+      }}
     >
       {(item) => (
         <AutocompleteItem key={item.name} className="capitalize">

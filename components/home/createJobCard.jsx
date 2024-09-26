@@ -5,10 +5,51 @@ import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDi
 
 import { Tabs, Tab, Chip } from "@nextui-org/react";
 import Suggest from "@/components/Suggest"
+import { DotsIcon } from "../icons/accounts/dots-icon";
+
+import { customersMap } from "@/helpers/constants"
 
 export default function CreateJobCard() {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [tab, setTab] = useState()
+  const [showMoreOwner, setShowMoreOwner] = useState(false)
+  const [showMoreVehicle, setShowMoreVehicle] = useState(false)
+  let ownerLabels = showMoreOwner ? ["Name", "Mobile", "Phone", "Email", "Source Of Business", "Postal Address", "Enter a location", "Street Line", "Suburb", "State/City", "Postcode", "Add Street Address", "Fax", "Price Level", "Payment Term"] : ["Name", "Mobile", "Phone", "Email", "Source Of Business", "Postal Address", "Enter a location", "Street Line", "Suburb", "State/City", "Postcode"]
+
+  let vehicleLabels = showMoreVehicle ? ["Registration Number", "Fleet Number", "Driver Name", "Driver Phone", "Driver Email", "Make", "Model", "Year", "VIN", "Color", "Body Type", "Service Interval", "Transmission Type", "Battery", "Odometer Unit", "Engine", "Engine Type", "Engine Oil Type", "Engine Oil Quantity", "Power Steering Oil Type", "Power Steering Oil Quantity", "Transmission Oil Type", "Transmission Oil Quantity", "Transfer Case Oil Type", "Transfer Case Oil Quantity", "Coolant Type", "Coolant Quantity", "Fuel Type", "Air Filter", "Oil Filter", "Fuel Filter", "Transmission Filter", "Hydraulic Filter", "Tyre Size"] : ["Registration Number", "Fleet Number", "Driver Name", "Driver Phone", "Driver Email", "Make", "Model", "Year", "VIN", "Color", "Body Type", "Service Interval"]
+
+
+
+  const [formData, setFormData] = useState({ owner: {}, vehicle: {}, job: {} })
+
+  async function fillOwner(data) {
+    // console.log({data})
+    // return
+    if(!data) return
+
+    let allowedKeys = Object.values(customersMap)
+    let newFormData = {...formData}
+    for(let key of Object.keys(data)){
+      if(allowedKeys.includes(key)){
+        newFormData.owner[key] = data[key]
+        setFormData(newFormData)
+      } else {
+        console.log(`bad key: ${key}`)
+      }
+    }
+    setFormData(newFormData)
+
+  }
+
+  function changeValue(e, key, map, label) {
+    let newFormData = {...formData}
+    newFormData[key][map[label]] = e
+    setFormData(newFormData)
+  }
+
+  function valueFor(key, map, label) {
+    return formData[key][map[label]] || ""
+  }
 
   return (
     <>
@@ -17,7 +58,7 @@ export default function CreateJobCard() {
         isOpen={isOpen}
         onOpenChange={onOpenChange}
         placement="top-center"
-        size="5xl"
+        size="2xl"
 
       >
         <ModalContent>
@@ -25,7 +66,6 @@ export default function CreateJobCard() {
             <>
               <ModalHeader className="flex flex-col gap-1">Create Job Card</ModalHeader>
               <ModalBody>
-                <p>Big form coming soon</p>
                 <Tabs
                   aria-label="Options"
                   color="primary"
@@ -39,76 +79,75 @@ export default function CreateJobCard() {
                   onSelectionChange={setTab}
                 >
                   <Tab
-                    key="main"
+                    key="owner"
                     title={
                       <div className="flex items-center space-x-2">
 
-                        <span>Main</span>
+                        <span>Owner</span>
 
                       </div>
                     }
                   />
                   <Tab
-                    key="music"
+                    key="vehicle"
                     title={
                       <div className="flex items-center space-x-2">
 
-                        <span>Music</span>
+                        <span>Vehicle</span>
 
                       </div>
                     }
                   />
                   <Tab
-                    key="videos"
+                    key="job"
                     title={
                       <div className="flex items-center space-x-2">
 
-                        <span>Videos</span>
+                        <span>Job</span>
 
                       </div>
                     }
                   />
                 </Tabs>
-                {tab}
-                <Suggest model="customers" onChange={x => alert(JSON.stringify(x))}/>
+
+
                 <form id="create-job">
-                  <div className={tab === "main" ? "" : "hidden"}>
-{/*
-                  "time": "2024-09-28T15:45:44.218+10:00",
-  "number": "56623",
-  "job_number": "56623",
-  "job_type_ids": [
-    13651799,
-    9235927,
-    14679648,
-    15547762
-  ],
-  "name": "Hills tankers",
-  "description": "replaced left steer tyre and rim ",
-  "full_description": "replaced left steer tyre and rim , Callout, New Tyres, rim, Strip \u0026 Fit Tyres",
-  "total_hours": null,
-  "phone": "",
-  "mobile": "0459951068",
-  "make": "western star ",
-  "model": "48x",
-  "color": "white ",
-  "year": "2023",
-  "registration_number": "XB58GH",
-  "start": "2024-09-28T15:45:44.218+10:00",
-  "end": null,
-  "finished_time": null,
-  "vehicle_id": 13917245,
-  "job_id": 16643524,
-  "status": "new",
-  "on_hold": true,
-  "on_hold_reason": "Waiting on order number",
-  "pickup_time": "2024-09-13T07:00:00.000+10:00",
-  "type": "job",
-  "job_types_title": "Callout, New Tyres, rim, Strip \u0026 Fit Tyres",
-  "vehicle_title": "western star  48x 2023\nReg#: XB58GH\nFleet#: ",
-  "customer_title": "Hills tankers\u003Cbr\u003E0459951068",
-  "replacement_provided": false,
-  "key_tag": null, */}
+                  <div className={tab === "owner" ? "" : "hidden"}>
+                    <Suggest model="customers" onChange={fillOwner} />
+                    <div className="grid grid-cols-3 gap-2 my-4">
+                      {ownerLabels.map((label, i) => {
+                        return <Input key={i} size="sm" type="text" onValueChange={(x) => changeValue(x, "owner", customersMap, label)} label={label} value={valueFor("owner", customersMap, label)} />
+                      })}
+                      <Input size="sm" type="number" label="Default Discount" min={0} />
+                      <Checkbox size="sm" isSelected={formData.owner.isCompany === "Y"}>Is Company</Checkbox>
+
+                    </div>
+                    <Button variant="ghost" color="primary" onClick={() => setShowMoreOwner(!showMoreOwner)}>{showMoreOwner ? "Show Less" : "Show More"}</Button>
+
+
+
+
+
+                  </div>
+
+                  <div className={tab === "vehicle" ? "" : "hidden"}>
+                    {/* <Suggest model="customers" onChange={fillOwner} /> */}
+                    <div className="grid grid-cols-3 gap-2 my-4">
+                      {vehicleLabels.map((label, i) => {
+                        return <Input key={i} size="sm" type="text" onValueChange={(x) => changeValue(x, "vehicle", customersMap, label)} label={label} value={valueFor("vehicle", customersMap, label)} />
+                      })}
+
+                      {/* <Input size="sm" type="number" label="Default Discount" min={0} />
+                      <Checkbox size="sm" isSelected={formData.owner.isCompany === "Y"}>Is Company</Checkbox> */}
+
+                    </div>
+                    <Button variant="ghost" color="primary" onClick={() => setShowMoreVehicle(!showMoreVehicle)}>{showMoreVehicle ? "Show Less" : "Show More"}</Button>
+
+
+
+
+
+
                   </div>
 
                 </form>
