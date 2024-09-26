@@ -4,10 +4,12 @@ import prisma from "@/src/db"
 export async function GET(req) {
   debugger
   console.log(req.query)
-  const q = req.nextUrl.searchParams.get("q")
+  let q = req.nextUrl.searchParams.get("q")
   const model = req.nextUrl.searchParams.get("model")
 
-  const result = await prisma[model].findMany({
+  q = q.replace(/[^\w ]/g, '')
+  const results = await prisma[model].findMany({
+
     where: {
       name: {
         search: q,
@@ -15,7 +17,14 @@ export async function GET(req) {
     },
   })
 
-  return NextResponse.json({ q, model, result });
+
+
+  return NextResponse.json({
+    count: results.length,
+    next: null,
+    previous: null,
+    results
+  });
 
 }
 

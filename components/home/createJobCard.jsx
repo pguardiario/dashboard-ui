@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure, Checkbox, Input, Link } from "@nextui-org/react";
 
 import { Tabs, Tab, Chip } from "@nextui-org/react";
-
+import Suggest from "@/components/Suggest"
 
 export default function CreateJobCard() {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -70,6 +70,7 @@ export default function CreateJobCard() {
                   />
                 </Tabs>
                 {tab}
+                <Suggest model="customers" onChange={x => alert(JSON.stringify(x))}/>
                 <form id="create-job">
                   <div className={tab === "main" ? "" : "hidden"}>
 {/*

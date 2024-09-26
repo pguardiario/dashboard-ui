@@ -1,7 +1,6 @@
 generator client {
-  provider = "prisma-client-js"
-    previewFeatures = ["fullTextSearch"]
-
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearch"]
 }
 
 datasource db {
@@ -111,7 +110,7 @@ model tires {
 }
 
 model customers {
-  id                    Int     @id @default(autoincrement())
+  id                    Int       @id @default(autoincrement())
   uuid                  String
   customerNumber        String?
   specialAccountNumber  String?
@@ -147,4 +146,46 @@ model customers {
   creditor              String?
   createdAt             DateTime
   lastInvoiceDate       DateTime?
+}
+
+model vehicles {
+  id                       Int       @id @default(autoincrement())
+  customerId               Int
+  vehicleNumber Int?
+  registrationNumber       String?
+  location                 String?
+  fleetNumber              String?
+  driverName               String?
+  driverPhone              String?
+  driverEmail              String?
+  make                     String?
+  model                    String?
+  year                     String?
+  vin                      String?
+  color                    String?
+  bodyType                 String?
+  serviceInterval          String?
+  transmissionType         String?
+  battery                  String?
+  Odometer                 String?
+  Engine                   String?
+  engineType               String?
+  engineOilType            String?
+  engineOilQuality         String?
+  powerSteeringOilType     String?
+  powerSteeringOilQuantity String?
+  transmissionOilType      String?
+  transmissionOilQuantity  String?
+  transferCaseOilType      String?
+  transferCaseOilQuantity  String?
+  coolantType              String?
+  coolantQuantity          String?
+  fuelType                 String?
+  airFilter                String?
+  oilFilter                String?
+  fuelFilter               String?
+  transmissionFilter       String?
+  hydraulicFilter          String?
+  tyreSize                 String?
+  createdAt DateTime
 }
