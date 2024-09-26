@@ -7,6 +7,7 @@ import { generateQuoteMap } from './dnd/mockData';
 import Board from './dnd/board/Board';
 import { ChevronDownIcon } from "./icons/sidebar/chevron-down-icon";
 import { useState } from "react";
+import CreateJobCard from "./home/createJobCard";
 
 
 
@@ -97,40 +98,41 @@ export default function Diary({ data }) {
 
   return <div className={`${collapsed ? "" : "ml-[250px]"} p-6 space-y-3`}>
     <h1>Diary</h1>
-    <hr/>
+    <hr />
 
-    <div className="flex">
+    <div className="flex itens-center space-x-3">
       <div className="flex-1">
         <p className="font-bold">{numJobs} jobs</p>
       </div>
+      <CreateJobCard/>
       <div className="">
-      <Dropdown>
-      <DropdownTrigger className="hidden sm:flex">
-        <Button endContent={<ChevronDownIcon className="text-small" />} variant="flat">
-          Status
-        </Button>
-      </DropdownTrigger>
-      <DropdownMenu
-        // disallowEmptySelection
-        aria-label="Table Columns"
-        closeOnSelect={false}
-        selectedKeys={statusFilter}
-        selectionMode="multiple"
-        onSelectionChange={setStatusFilter}
-      >
-        {statusOptions.map((status, i) => (
-          <DropdownItem onClick={() => {
-            if (statuses.includes(status.name)) {
-              setStatuses(statuses.filter(s => s !== status.name))
-            } else {
-              setStatuses([...statuses, status.name])
-            }
-          }} key={i} className="capitalize">
-            {capitalize(status.name)}
-          </DropdownItem>
-        ))}
-      </DropdownMenu>
-    </Dropdown>
+        <Dropdown>
+          <DropdownTrigger className="hidden sm:flex">
+            <Button endContent={<ChevronDownIcon className="text-small" />} variant="flat">
+              Status
+            </Button>
+          </DropdownTrigger>
+          <DropdownMenu
+            // disallowEmptySelection
+            aria-label="Table Columns"
+            closeOnSelect={false}
+            selectedKeys={statusFilter}
+            selectionMode="multiple"
+            onSelectionChange={setStatusFilter}
+          >
+            {statusOptions.map((status, i) => (
+              <DropdownItem onClick={() => {
+                if (statuses.includes(status.name)) {
+                  setStatuses(statuses.filter(s => s !== status.name))
+                } else {
+                  setStatuses([...statuses, status.name])
+                }
+              }} key={i} className="capitalize">
+                {capitalize(status.name)}
+              </DropdownItem>
+            ))}
+          </DropdownMenu>
+        </Dropdown>
       </div>
     </div>
     {/* {JSON.stringify(statuses)} */}

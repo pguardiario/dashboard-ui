@@ -1,5 +1,7 @@
 generator client {
   provider = "prisma-client-js"
+    previewFeatures = ["fullTextSearch"]
+
 }
 
 datasource db {
@@ -106,4 +108,43 @@ model tires {
   link        String?
 
   @@unique([supplier, itemNumber])
+}
+
+model customers {
+  id                    Int     @id @default(autoincrement())
+  uuid                  String
+  customerNumber        String?
+  specialAccountNumber  String?
+  isCompany             String?
+  isThirdParty          String?
+  name                  String?
+  firstName             String?
+  lastName              String?
+  contactName           String?
+  taxRegistrationNumber String?
+  phone                 String?
+  fax                   String?
+  mobile                String?
+  email                 String?
+  marketingDisabled     String?
+  priceLevel            String?
+  terms                 String?
+  defaultDiscount       String?
+  address               String?
+  suburb                String?
+  state                 String?
+  postcode              String?
+  country               String?
+  streetAddress         String?
+  streetSuburb          String?
+  streetState           String?
+  streetPostcode        String?
+  note                  String?
+  tags                  String?
+  sourceOfBusiness      String?
+  runningBalance        Float?
+  finalizedBalance      Float?
+  creditor              String?
+  createdAt             DateTime
+  lastInvoiceDate       DateTime?
 }
