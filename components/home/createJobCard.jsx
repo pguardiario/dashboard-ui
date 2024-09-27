@@ -11,21 +11,21 @@ import { customersMap, jobTypes, mechanics, vehiclesMap } from "@/helpers/consta
 import { Select, SelectItem } from "@nextui-org/react";
 import toast from "react-hot-toast";
 
-import {DatePicker} from "@nextui-org/react";
-import {now, getLocalTimeZone} from "@internationalized/date";
+import { DatePicker } from "@nextui-org/react";
+import { now, getLocalTimeZone } from "@internationalized/date";
 
-function Picker({label, onChange}) {
+function Picker({ label, onChange }) {
   return (
 
-      <DatePicker
-        label={label}
-        size="sm"
-        variant="bordered"
-        hideTimeZone
-        showMonthAndYearPickers
-        defaultValue={now(getLocalTimeZone())}
-        onChange={x => onChange(x.toDate())}
-      />
+    <DatePicker
+      label={label}
+      size="sm"
+      variant="bordered"
+      hideTimeZone
+      showMonthAndYearPickers
+      defaultValue={now(getLocalTimeZone())}
+      onChange={x => onChange(x.toDate())}
+    />
 
   );
 }
@@ -86,10 +86,18 @@ export default function CreateJobCard() {
 
   const [formData, setFormData] = useState({ owner: {}, vehicle: {}, job: {} })
 
-  function missingField(){
-    if(!formData.owner.name){
+  function missingField() {
+    if (!formData.owner.name) {
       setTab('owner')
       return "Owner Name"
+    }
+    if (!formData.vehicle.make) {
+      setTab('vehicle')
+      return "Vehicle Make"
+    }
+    if (!formData.job.jobTypes) {
+      setTab('job')
+      return "Job Types"
     }
   }
 
@@ -266,25 +274,37 @@ export default function CreateJobCard() {
                       <div className="w-1/2 space-y-2">
                         <Input size="sm" type="text" onValueChange={(x) => setFormData({ ...formData, job: { ...formData.job, description: x } })} label={"Short Description"} value={formData.job.description} />
 
-                        <Textarea label="Note/More Details" onValueChange={x => setFormData({ ...formData, job: { ...formData.job, notes: x } })}/>
-                        <Picker label="Start Time" onChange={x => setFormData({ ...formData, job: { ...formData.job, startTime: x } })}/>
-                        <Picker label="Estimated Finished Time" onChange={x => setFormData({ ...formData, job: { ...formData.job, estimatedFinishTime: x } })}/>
-                        <Picker label="Pickup time" onChange={x => setFormData({ ...formData, job: { ...formData.job, pickupTime: x } })}/>
+                        <Textarea label="Note/More Details" onValueChange={x => setFormData({ ...formData, job: { ...formData.job, notes: x } })} />
+                        <Picker label="Start Time" onChange={x => setFormData({ ...formData, job: { ...formData.job, startTime: x } })} />
+                        <Picker label="Estimated Finished Time" onChange={x => setFormData({ ...formData, job: { ...formData.job, estimatedFinishTime: x } })} />
+                        <Picker label="Pickup time" onChange={x => setFormData({ ...formData, job: { ...formData.job, pickupTime: x } })} />
+                        <div>
+                        <Checkbox size="sm" isSelected={formData.job.courtesyVehicle} onChange={e => setFormData({ ...formData, job: { ...formData.job, courtesyVehicle: e.target.checked } })}>Courtesy Vehicle</Checkbox>
+                        </div>
+                        <div>
+                        <Checkbox size="sm" isSelected={formData.job.invoiceToThirdParty} onChange={e => setFormData({ ...formData, job: { ...formData.job, invoiceToThirdParty: e.target.checked } })}>Invoice To 3rd Party</Checkbox>
+                        </div>
+
+
 
                       </div>
                       <div className="w-1/2 space-y-2">
-                        <Checkbox size="sm" isSelected={formData.job.invoiceToThirdParty}>Invoice To 3rd Party</Checkbox>
                         <MultipleSelect values={jobTypes} label="Job Type" onChange={(x) => setFormData({ ...formData, job: { ...formData.job, jobTypes: x } })} />
-                        <MultipleSelect values={ mechanics } label="Mechanic" onChange={(x) => setFormData({ ...formData, job: { ...formData.job, mechanics: x } })} />
-                        <Input />
+                        <MultipleSelect values={mechanics} label="Mechanic" onChange={(x) => setFormData({ ...formData, job: { ...formData.job, mechanics: x } })} />
+                        {[{ key: "estimatedWorkHours", label: "Estimated work hours" },
+                        { key: "orderNumber", label: "Order Number" },
+                        { key: "odometer", label: "Odometer" },
+                        { key: "hubodometer", label: "Hubodometer" },
+                        { key: "engineHours", label: "Engine Hours" }].map(({ key, label }) => <Input key={key} size="sm" type="number" step="any" onValueChange={(x) => {
+                          let newFormData = { ...formData }
+                          newFormData.job[key] = x
+                          setFormData(newFormData)
+                        }} label={label} value={formData.job[key]} />)}
 
                       </div>
 
-{/* Estimated work hours */}
-{/* Order Number */}
-{/* Odometer */}
-{/* Hubodometer */}
-{/* Engine Hours */}
+
+
 
 
                       {/* <Checkbox size="sm" isSelected={formData.job.courtesyVehicle}>Courtesy Vehicle</Checkbox> */}
@@ -336,10 +356,10 @@ Courtesy Vehicle */}
                 </Button>
                 <Button color="primary" onPress={() => {
                   let mf = missingField()
-                  if(mf) {
+                  if (mf) {
                     toast.error(`Please fill out ${mf}`)
                   } else {
-                    toast.success("ok")
+                    toast.success("Coming Soon!")
                   }
 
                 }}>
