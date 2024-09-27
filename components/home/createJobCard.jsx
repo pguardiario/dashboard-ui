@@ -80,18 +80,24 @@ export default function CreateJobCard() {
   const [vehicles, setVehicles] = useState([])
   const [showMoreOwner, setShowMoreOwner] = useState(false)
   const [showMoreVehicle, setShowMoreVehicle] = useState(false)
+  const [formData, setFormData] = useState({ owner: {}, vehicle: {}, job: {} })
+
   let ownerLabels = showMoreOwner ? ["Name", "Mobile", "Phone", "Email", "Address", "Suburb", "State", "Postcode", "Street Address", "Street Address Suburb", "Street Address State", "Street Address Postcode", , "Fax", "Price Level", "Payment Term"] : ["Name", "Mobile", "Phone", "Email", "Address", "Suburb", "State", "Postcode"]
 
   let vehicleLabels = showMoreVehicle ? ["Registration Number", "Fleet Number", "Driver Name", "Driver Phone", "Driver Email", "Make", "Model", "Year", "VIN", "Color", "Body Type", "Service Interval", "Transmission Type", "Battery", "Odometer Unit", "Engine", "Engine Type", "Engine Oil Type", "Engine Oil Quantity", "Power Steering Oil Type", "Power Steering Oil Quantity", "Transmission Oil Type", "Transmission Oil Quantity", "Transfer Case Oil Type", "Transfer Case Oil Quantity", "Coolant Type", "Coolant Quantity", "Fuel Type", "Air Filter", "Oil Filter", "Fuel Filter", "Transmission Filter", "Hydraulic Filter", "Tyre Size"] : ["Registration Number", "Fleet Number", "Driver Name", "Driver Phone", "Driver Email", "Make", "Model", "Year", "VIN", "Color", "Body Type", "Service Interval"]
 
-  const [formData, setFormData] = useState({ owner: {}, vehicle: {}, job: {} })
+
+
+  if(formData.vehicle.noVehicleRequired){
+    vehicleLabels=[]
+  }
 
   function missingField() {
     if (!formData.owner.name) {
       setTab('owner')
       return "Owner Name"
     }
-    if (!formData.vehicle.make) {
+    if (!formData.vehicle.noVehicleRequired && !formData.vehicle.make) {
       setTab('vehicle')
       return "Vehicle Make"
     }
@@ -238,10 +244,11 @@ export default function CreateJobCard() {
                     {/* <Suggest model="customers" onChange={fillOwner} /> */}
                     {/* {JSON.stringify(vehicles)} */}
 
-                    <div className="flex items-center" >
+                    <div className="flex items-center space-x-3" >
                       <div className="flex-1">
                         {vehicles.length > 0 && <VehiclesSelect vehicles={vehicles} onChange={fillVehicle} />}
                       </div>
+                      <Checkbox size="sm" isSelected={formData.vehicle.noVehicleRequired} onChange={e => setFormData({ ...formData, vehicle: { ...formData.vehicle, noVehicleRequired: e.target.checked } })}>No Vehicle Required</Checkbox>
                       <Button onClick={() => setFormData({ ...formData, vehicle: {} })} color="danger">Clear</Button>
                     </div>
 
