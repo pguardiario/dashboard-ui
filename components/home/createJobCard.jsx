@@ -8,10 +8,10 @@ import { DotsIcon } from "../icons/accounts/dots-icon";
 
 import { customersMap, vehiclesMap } from "@/helpers/constants"
 
-import {Select, SelectItem} from "@nextui-org/react";
+import { Select, SelectItem } from "@nextui-org/react";
 
 
-function VehiclesSelect({vehicles, onChange}) {
+function VehiclesSelect({ vehicles, onChange }) {
   return (
     <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
       <Select
@@ -49,13 +49,13 @@ export default function CreateJobCard() {
   async function fillOwner(data) {
     // console.log({data})
     // return
-    if(!data) return
+    if (!data) return
 
     let allowedKeys = Object.values(customersMap)
-    let newFormData = {...formData}
+    let newFormData = { ...formData }
     newFormData.owner = {}
-    for(let key of Object.keys(data)){
-      if(allowedKeys.includes(key)){
+    for (let key of Object.keys(data)) {
+      if (allowedKeys.includes(key)) {
         newFormData.owner[key] = data[key]
       } else {
         console.log(`bad key: ${key}`)
@@ -67,13 +67,13 @@ export default function CreateJobCard() {
   }
 
   async function fillVehicle(data) {
-    if(!data) return
+    if (!data) return
 
     let allowedKeys = Object.values(vehiclesMap)
-    let newFormData = {...formData}
+    let newFormData = { ...formData }
     newFormData.vehicle = {}
-    for(let key of Object.keys(data)){
-      if(allowedKeys.includes(key)){
+    for (let key of Object.keys(data)) {
+      if (allowedKeys.includes(key)) {
         newFormData.vehicle[key] = data[key]
         console.log(`good key: ${key}`)
       } else {
@@ -87,7 +87,7 @@ export default function CreateJobCard() {
 
 
   function changeValue(e, key, map, label) {
-    let newFormData = {...formData}
+    let newFormData = { ...formData }
     newFormData[key][map[label]] = e
     setFormData(newFormData)
   }
@@ -159,11 +159,10 @@ export default function CreateJobCard() {
                 <form id="create-job">
                   <div className={tab === "owner" ? "" : "hidden"}>
                     <div className="flex items-center" >
-                    <div className="flex-1">
-                    <Suggest model="customers" onChange={fillOwner} />
-                    </div>
-
-                      <Button onClick={() => setFormData({...formData, owner: {}})} color="danger">Clear</Button>
+                      <div className="flex-1">
+                        <Suggest model="customers" onChange={fillOwner} />
+                      </div>
+                      <Button onClick={() => setFormData({ ...formData, owner: {} })} color="danger">Clear</Button>
                     </div>
 
                     <div className="grid grid-cols-3 gap-2 my-4">
@@ -181,7 +180,15 @@ export default function CreateJobCard() {
                   <div className={tab === "vehicle" ? "" : "hidden"}>
                     {/* <Suggest model="customers" onChange={fillOwner} /> */}
                     {/* {JSON.stringify(vehicles)} */}
-                    {vehicles.length > 0 && <VehiclesSelect vehicles={vehicles} onChange={fillVehicle}/>}
+
+                    <div className="flex items-center" >
+                      <div className="flex-1">
+                        {vehicles.length > 0 && <VehiclesSelect vehicles={vehicles} onChange={fillVehicle} />}
+                      </div>
+                      <Button onClick={() => setFormData({ ...formData, vehicle: {} })} color="danger">Clear</Button>
+                    </div>
+
+
                     <div className="grid grid-cols-3 gap-2 my-4">
                       {vehicleLabels.map((label, i) => {
                         return <Input key={i} size="sm" type="text" onValueChange={(x) => changeValue(x, "vehicle", vehiclesMap, label)} label={label} value={valueFor("vehicle", vehiclesMap, label)} />
