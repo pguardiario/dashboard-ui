@@ -33,7 +33,7 @@ export const AuthLayoutWrapper = ({ children }: Props) => {
         </div>
 
         <div className='z-10'>
-          <h1 className='font-bold text-[45px]'>Tire Shop</h1>
+          <h1 className='font-bold text-[45px]'>Tyre Shop</h1>
           <div className='font-light text-slate-400 mt-4'>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi
             possimus voluptate, sapiente assumenda deserunt repellendus,

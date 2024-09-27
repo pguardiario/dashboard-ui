@@ -5,7 +5,7 @@ import { fontSans } from "@/config/fonts";
 import clsx from "clsx";
 
 export const metadata: Metadata = {
-  title: "Tire Shop",
+  title: "Tyre Shop",
   description: "",
 };
 

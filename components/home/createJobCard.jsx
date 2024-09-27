@@ -12,11 +12,16 @@ import { customersMap } from "@/helpers/constants"
 export default function CreateJobCard() {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [tab, setTab] = useState()
+  const [vehicles, setVehicles] = useState([])
   const [showMoreOwner, setShowMoreOwner] = useState(false)
   const [showMoreVehicle, setShowMoreVehicle] = useState(false)
-  let ownerLabels = showMoreOwner ? ["Name", "Mobile", "Phone", "Email", "Source Of Business", "Postal Address", "Enter a location", "Street Line", "Suburb", "State/City", "Postcode", "Add Street Address", "Fax", "Price Level", "Payment Term"] : ["Name", "Mobile", "Phone", "Email", "Source Of Business", "Postal Address", "Enter a location", "Street Line", "Suburb", "State/City", "Postcode"]
+  let ownerLabels = showMoreOwner ? ["Name", "Mobile", "Phone", "Email", "Address", "Suburb", "State", "Postcode", "Street Address", "Street Address Suburb", "Street Address State", "Street Address Postcode", , "Fax", "Price Level", "Payment Term"] : ["Name", "Mobile", "Phone", "Email", "Address", "Suburb", "State", "Postcode"]
+
+
 
   let vehicleLabels = showMoreVehicle ? ["Registration Number", "Fleet Number", "Driver Name", "Driver Phone", "Driver Email", "Make", "Model", "Year", "VIN", "Color", "Body Type", "Service Interval", "Transmission Type", "Battery", "Odometer Unit", "Engine", "Engine Type", "Engine Oil Type", "Engine Oil Quantity", "Power Steering Oil Type", "Power Steering Oil Quantity", "Transmission Oil Type", "Transmission Oil Quantity", "Transfer Case Oil Type", "Transfer Case Oil Quantity", "Coolant Type", "Coolant Quantity", "Fuel Type", "Air Filter", "Oil Filter", "Fuel Filter", "Transmission Filter", "Hydraulic Filter", "Tyre Size"] : ["Registration Number", "Fleet Number", "Driver Name", "Driver Phone", "Driver Email", "Make", "Model", "Year", "VIN", "Color", "Body Type", "Service Interval"]
+
+
 
 
 
@@ -29,6 +34,7 @@ export default function CreateJobCard() {
 
     let allowedKeys = Object.values(customersMap)
     let newFormData = {...formData}
+    newFormData.owner = {}
     for(let key of Object.keys(data)){
       if(allowedKeys.includes(key)){
         newFormData.owner[key] = data[key]
@@ -38,6 +44,7 @@ export default function CreateJobCard() {
       }
     }
     setFormData(newFormData)
+    fetch(`/api/ownerVehicles/${data.id}`).then(r => r.json()).then(setVehicles)
 
   }
 
@@ -113,7 +120,14 @@ export default function CreateJobCard() {
 
                 <form id="create-job">
                   <div className={tab === "owner" ? "" : "hidden"}>
+                    <div className="flex items-center" >
+                    <div className="flex-1">
                     <Suggest model="customers" onChange={fillOwner} />
+                    </div>
+
+                      <Button onClick={() => setFormData({...formData, owner: {}})} color="danger">Clear</Button>
+                    </div>
+
                     <div className="grid grid-cols-3 gap-2 my-4">
                       {ownerLabels.map((label, i) => {
                         return <Input key={i} size="sm" type="text" onValueChange={(x) => changeValue(x, "owner", customersMap, label)} label={label} value={valueFor("owner", customersMap, label)} />
@@ -124,14 +138,11 @@ export default function CreateJobCard() {
                     </div>
                     <Button variant="ghost" color="primary" onClick={() => setShowMoreOwner(!showMoreOwner)}>{showMoreOwner ? "Show Less" : "Show More"}</Button>
 
-
-
-
-
                   </div>
 
                   <div className={tab === "vehicle" ? "" : "hidden"}>
                     {/* <Suggest model="customers" onChange={fillOwner} /> */}
+                    {JSON.stringify(vehicles)}
                     <div className="grid grid-cols-3 gap-2 my-4">
                       {vehicleLabels.map((label, i) => {
                         return <Input key={i} size="sm" type="text" onValueChange={(x) => changeValue(x, "vehicle", customersMap, label)} label={label} value={valueFor("vehicle", customersMap, label)} />
@@ -142,11 +153,6 @@ export default function CreateJobCard() {
 
                     </div>
                     <Button variant="ghost" color="primary" onClick={() => setShowMoreVehicle(!showMoreVehicle)}>{showMoreVehicle ? "Show Less" : "Show More"}</Button>
-
-
-
-
-
 
                   </div>
 
