@@ -2,18 +2,6 @@ import { NextResponse } from "next/server";
 import prisma from "@/src/db"
 import { createHmac } from "crypto"
 
-
-
-function verifyWebhookEventSignature(req) {
-  const computedSignature = createHmac(
-      "sha256",
-      process.env.XERO_WEBHOOKS_KEY
-    )
-    .update(buffer.toString())
-    .digest("base64");
-  const xeroSignature = req.headers["x-xero-signature"]
-}
-
 export async function GET(req) {
   console.log('get')
   return NextResponse.json({x: 1});

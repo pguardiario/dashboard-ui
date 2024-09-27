@@ -149,9 +149,9 @@ model customers {
 }
 
 model vehicles {
-  id                       Int       @id @default(autoincrement())
+  id                       Int      @id @default(autoincrement())
   customerId               Int
-  vehicleNumber Int?
+  vehicleNumber            Int?
   registrationNumber       String?
   location                 String?
   fleetNumber              String?
@@ -187,5 +187,43 @@ model vehicles {
   transmissionFilter       String?
   hydraulicFilter          String?
   tyreSize                 String?
+  createdAt                DateTime
+}
+
+model jobs {
+  id                 Int  @id @default(autoincrement())
+  customerId         Int?
+  vehicleId          Int?
+  jobNumber String?
+  status String?
+  orderNumber String?
+  keyTag String?
+  vehicleNumber String?
+  vehicle String?
+  registrationNumber String?
+  fleetNumber String?
+  chassisNumber String?
+  vin String?
+  jobName String?
+  jobEmail String?
+  jobPhone String?
+  jobID String?
+  jobType String?
+  description String?
+  time DateTime?
+  finishTime DateTime?
+  estimateHours String?
+  finishedBy String?
+  onHold String?
+  onHoldReason String?
+  odometer String?
+  comments String?
+  notes String?
+  tags String?
+  invoiceNumber String?
+  nextServiceDate DateTime?
+  bookedBy String?
+  createdBy String?
+  assignedTo String?
   createdAt DateTime
 }
