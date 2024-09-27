@@ -1,4 +1,3 @@
-import { Card, CardBody } from "@nextui-org/react";
 import React, { useState } from "react";
 
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure, Checkbox, Input, Link } from "@nextui-org/react";
@@ -7,7 +6,33 @@ import { Tabs, Tab, Chip } from "@nextui-org/react";
 import Suggest from "@/components/Suggest"
 import { DotsIcon } from "../icons/accounts/dots-icon";
 
-import { customersMap } from "@/helpers/constants"
+import { customersMap, vehiclesMap } from "@/helpers/constants"
+
+import {Select, SelectItem} from "@nextui-org/react";
+
+
+function VehiclesSelect({vehicles, onChange}) {
+  return (
+    <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
+      <Select
+        label="Select a vehicle"
+        className="max-w-xs"
+        onSelectionChange={(o) => {
+          let id = Number(o.anchorKey)
+          let vehicle = vehicles.find(v => v.id === id)
+          onChange(vehicle)
+        }}
+      >
+        {vehicles.map((v) => (
+          <SelectItem key={v.id}>
+            {v.year} {v.make} {v.model} {v.color} ({v.vin || v.registrationNumber})
+          </SelectItem>
+        ))}
+      </Select>
+
+    </div>
+  );
+}
 
 export default function CreateJobCard() {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -17,13 +42,7 @@ export default function CreateJobCard() {
   const [showMoreVehicle, setShowMoreVehicle] = useState(false)
   let ownerLabels = showMoreOwner ? ["Name", "Mobile", "Phone", "Email", "Address", "Suburb", "State", "Postcode", "Street Address", "Street Address Suburb", "Street Address State", "Street Address Postcode", , "Fax", "Price Level", "Payment Term"] : ["Name", "Mobile", "Phone", "Email", "Address", "Suburb", "State", "Postcode"]
 
-
-
   let vehicleLabels = showMoreVehicle ? ["Registration Number", "Fleet Number", "Driver Name", "Driver Phone", "Driver Email", "Make", "Model", "Year", "VIN", "Color", "Body Type", "Service Interval", "Transmission Type", "Battery", "Odometer Unit", "Engine", "Engine Type", "Engine Oil Type", "Engine Oil Quantity", "Power Steering Oil Type", "Power Steering Oil Quantity", "Transmission Oil Type", "Transmission Oil Quantity", "Transfer Case Oil Type", "Transfer Case Oil Quantity", "Coolant Type", "Coolant Quantity", "Fuel Type", "Air Filter", "Oil Filter", "Fuel Filter", "Transmission Filter", "Hydraulic Filter", "Tyre Size"] : ["Registration Number", "Fleet Number", "Driver Name", "Driver Phone", "Driver Email", "Make", "Model", "Year", "VIN", "Color", "Body Type", "Service Interval"]
-
-
-
-
 
   const [formData, setFormData] = useState({ owner: {}, vehicle: {}, job: {} })
 
@@ -38,7 +57,6 @@ export default function CreateJobCard() {
     for(let key of Object.keys(data)){
       if(allowedKeys.includes(key)){
         newFormData.owner[key] = data[key]
-        setFormData(newFormData)
       } else {
         console.log(`bad key: ${key}`)
       }
@@ -47,6 +65,26 @@ export default function CreateJobCard() {
     fetch(`/api/ownerVehicles/${data.id}`).then(r => r.json()).then(setVehicles)
 
   }
+
+  async function fillVehicle(data) {
+    if(!data) return
+
+    let allowedKeys = Object.values(vehiclesMap)
+    let newFormData = {...formData}
+    newFormData.vehicle = {}
+    for(let key of Object.keys(data)){
+      if(allowedKeys.includes(key)){
+        newFormData.vehicle[key] = data[key]
+        console.log(`good key: ${key}`)
+      } else {
+        console.log(`bad key: ${key}`)
+      }
+    }
+    setFormData(newFormData)
+    // fetch(`/api/ownerVehicles/${data.id}`).then(r => r.json()).then(setVehicles)
+
+  }
+
 
   function changeValue(e, key, map, label) {
     let newFormData = {...formData}
@@ -142,10 +180,11 @@ export default function CreateJobCard() {
 
                   <div className={tab === "vehicle" ? "" : "hidden"}>
                     {/* <Suggest model="customers" onChange={fillOwner} /> */}
-                    {JSON.stringify(vehicles)}
+                    {/* {JSON.stringify(vehicles)} */}
+                    {vehicles.length > 0 && <VehiclesSelect vehicles={vehicles} onChange={fillVehicle}/>}
                     <div className="grid grid-cols-3 gap-2 my-4">
                       {vehicleLabels.map((label, i) => {
-                        return <Input key={i} size="sm" type="text" onValueChange={(x) => changeValue(x, "vehicle", customersMap, label)} label={label} value={valueFor("vehicle", customersMap, label)} />
+                        return <Input key={i} size="sm" type="text" onValueChange={(x) => changeValue(x, "vehicle", vehiclesMap, label)} label={label} value={valueFor("vehicle", vehiclesMap, label)} />
                       })}
 
                       {/* <Input size="sm" type="number" label="Default Discount" min={0} />
