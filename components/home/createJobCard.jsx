@@ -1,15 +1,36 @@
 import React, { useState } from "react";
 
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure, Checkbox, Input, Link } from "@nextui-org/react";
+import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure, Checkbox, Input, Link, Textarea } from "@nextui-org/react";
 
 import { Tabs, Tab, Chip } from "@nextui-org/react";
 import Suggest from "@/components/Suggest"
 import { DotsIcon } from "../icons/accounts/dots-icon";
 
-import { customersMap, vehiclesMap } from "@/helpers/constants"
+import { customersMap, jobTypes, mechanics, vehiclesMap } from "@/helpers/constants"
 
 import { Select, SelectItem } from "@nextui-org/react";
 
+
+function MultipleSelect({ values, label, onChange }) {
+  return (
+    <Select
+      label={label + "s"}
+      placeholder={`Select a ${label}`}
+      selectionMode="multiple"
+      className="max-w-xs"
+      onSelectionChange={(o) => {
+        onChange([...o].join(', '))
+      }}
+    >
+      {values.map((value) => (
+        <SelectItem key={value.key}>
+          {value.label}
+        </SelectItem>
+      ))}
+    </Select>
+  );
+
+}
 
 function VehiclesSelect({ vehicles, onChange }) {
   return (
@@ -201,6 +222,73 @@ export default function CreateJobCard() {
                     <Button variant="ghost" color="primary" onClick={() => setShowMoreVehicle(!showMoreVehicle)}>{showMoreVehicle ? "Show Less" : "Show More"}</Button>
 
                   </div>
+
+
+                  <div className={tab === "job" ? "" : "hidden"}>
+                    {/* <Suggest model="customers" onChange={fillOwner} /> */}
+                    {/* {JSON.stringify(vehicles)} */}
+
+                    <div className="flex items-center" >
+                      <Button onClick={() => setFormData({ ...formData, job: {} })} color="danger">Clear</Button>
+                    </div>
+
+                    {JSON.stringify(formData.job)}
+                    <div className="flex space-x-2 my-4">
+                      <div className="w-1/2 space-y-2">
+                        <Input size="sm" type="text" onValueChange={(x) => setFormData({ ...formData, job: { ...formData.job, description: x } })} label={"Short Description"} value={formData.job.description} />
+
+                        <Textarea label="Note/More Details" onValueChange={x => setFormData({ ...formData, job: { ...formData.job, notes: x } })}/>
+                        <Input />
+
+                      </div>
+                      <div className="w-1/2 space-y-2">
+                        <Checkbox size="sm" isSelected={formData.job.invoiceToThirdParty}>Invoice To 3rd Party</Checkbox>
+                        <MultipleSelect values={jobTypes} label="Job Type" onChange={(x) => setFormData({ ...formData, job: { ...formData.job, jobTypes: x } })} />
+                        <MultipleSelect values={ mechanics } label="Mechanic" onChange={(x) => setFormData({ ...formData, job: { ...formData.job, mechanics: x } })} />
+                        <Input />
+
+                      </div>
+
+                      {/* <Checkbox size="sm" isSelected={formData.job.courtesyVehicle}>Courtesy Vehicle</Checkbox> */}
+
+                    </div>
+
+
+                  </div>
+
+                  {/* Invoice To 3rd Party
+What's this?
+
+ New
+Short Description
+Note/More Details
+Add a note
+Job Types
+Pick job types...
+New
+Mechanics
+Show Schedule
+Brendan Stern×Joseph Celetaria×
+Start Time
+27/09/2024
+
+11.25 am
+Estimated Finished Time
+
+N/A
+Pickup time
+27/09/2024
+
+3.00 pm
+Estimated work hours
+Order Number
+Odometer
+Hubodometer
+Engine Hours
+Courtesy Vehicle */}
+
+
+
 
                 </form>
               </ModalBody>

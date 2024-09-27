@@ -77,3 +77,49 @@ export const vehiclesMap = {
   "Tyre Size": "tyreSize",
   "Created At": "createdAt"
 }
+
+export const jobTypes = [
+  { key: "Air Conditioning", label: "Air Conditioning" },
+  { key: "Auto Electrical", label: "Auto Electrical" },
+  { key: "Battery", label: "Battery" },
+  { key: "belts", label: "belts" },
+  { key: "Brake Systems", label: "Brake Systems" },
+  { key: "Callout", label: "Callout" },
+  { key: "Clutch & Transmission", label: "Clutch & Transmission" },
+  { key: "consuambles", label: "consuambles" },
+  { key: "Cooling Systems", label: "Cooling Systems" },
+  { key: "Customer Order", label: "Customer Order" },
+  { key: "Exhaust Systems", label: "Exhaust Systems" },
+  { key: "Fit 2nd hand tyres", label: "Fit 2nd hand tyres" },
+  { key: "Fitting", label: "Fitting" },
+  { key: "Freight", label: "Freight" },
+  { key: "Log book Service", label: "Log book Service" },
+  { key: "Major Service", label: "Major Service" },
+  { key: "Mechanical", label: "Mechanical" },
+  { key: "Minor Service", label: "Minor Service" },
+  { key: "New Tyres", label: "New Tyres" },
+  { key: "Oils", label: "Oils" },
+  { key: "Order Tyres", label: "Order Tyres" },
+  { key: "Parts", label: "Parts" },
+  { key: "Remove old tyres", label: "Remove old tyres" },
+  { key: "Repair", label: "Repair" },
+  { key: "rim", label: "rim" },
+  { key: "Road Worthy", label: "Road Worthy" },
+  { key: "Rotation", label: "Rotation" },
+  { key: "second hand tyres", label: "second hand tyres" },
+  { key: "Strip & Fit Tyres", label: "Strip & Fit Tyres" },
+  { key: "Supply Tube", label: "Supply Tube" },
+  { key: "Suspension & Shock Absorbers", label: "Suspension & Shock Absorbers" },
+  { key: "Wheel Alignment", label: "Wheel Alignment" },
+  { key: "Wheel Ballance", label: "Wheel Ballance" },
+  { key: "Windscreen", label: "Windscreen" }
+]
+
+export const mechanics = [
+  { key: "Arden Connell", label: "Arden Connell" },
+  { key: "Brett Minahan", label: "Brett Minahan" },
+  { key: "David Smith", label: "David Smith" },
+  { key: "Kieran Smith", label: "Kieran Smith" },
+  { key: "Leonie", label: "Leonie" },
+  { key: "Troy", label: "Troy" },
+]
