@@ -9,7 +9,26 @@ import { DotsIcon } from "../icons/accounts/dots-icon";
 import { customersMap, jobTypes, mechanics, vehiclesMap } from "@/helpers/constants"
 
 import { Select, SelectItem } from "@nextui-org/react";
+import toast from "react-hot-toast";
 
+import {DatePicker} from "@nextui-org/react";
+import {now, getLocalTimeZone} from "@internationalized/date";
+
+function Picker({label, onChange}) {
+  return (
+
+      <DatePicker
+        label={label}
+        size="sm"
+        variant="bordered"
+        hideTimeZone
+        showMonthAndYearPickers
+        defaultValue={now(getLocalTimeZone())}
+        onChange={x => onChange(x.toDate())}
+      />
+
+  );
+}
 
 function MultipleSelect({ values, label, onChange }) {
   return (
@@ -66,6 +85,13 @@ export default function CreateJobCard() {
   let vehicleLabels = showMoreVehicle ? ["Registration Number", "Fleet Number", "Driver Name", "Driver Phone", "Driver Email", "Make", "Model", "Year", "VIN", "Color", "Body Type", "Service Interval", "Transmission Type", "Battery", "Odometer Unit", "Engine", "Engine Type", "Engine Oil Type", "Engine Oil Quantity", "Power Steering Oil Type", "Power Steering Oil Quantity", "Transmission Oil Type", "Transmission Oil Quantity", "Transfer Case Oil Type", "Transfer Case Oil Quantity", "Coolant Type", "Coolant Quantity", "Fuel Type", "Air Filter", "Oil Filter", "Fuel Filter", "Transmission Filter", "Hydraulic Filter", "Tyre Size"] : ["Registration Number", "Fleet Number", "Driver Name", "Driver Phone", "Driver Email", "Make", "Model", "Year", "VIN", "Color", "Body Type", "Service Interval"]
 
   const [formData, setFormData] = useState({ owner: {}, vehicle: {}, job: {} })
+
+  function missingField(){
+    if(!formData.owner.name){
+      setTab('owner')
+      return "Owner Name"
+    }
+  }
 
   async function fillOwner(data) {
     // console.log({data})
@@ -143,6 +169,8 @@ export default function CreateJobCard() {
                     tabContent: "group-data-[selected=true]:text-[#06b6d4]"
                   }}
                   onSelectionChange={setTab}
+                  selectedKey={tab}
+
                 >
                   <Tab
                     key="owner"
@@ -229,16 +257,19 @@ export default function CreateJobCard() {
                     {/* {JSON.stringify(vehicles)} */}
 
                     <div className="flex items-center" >
+                      <div className="flex-1"></div>
                       <Button onClick={() => setFormData({ ...formData, job: {} })} color="danger">Clear</Button>
                     </div>
 
                     {JSON.stringify(formData.job)}
-                    <div className="flex space-x-2 my-4">
+                    <div className="flex space-x-2 mt-4">
                       <div className="w-1/2 space-y-2">
                         <Input size="sm" type="text" onValueChange={(x) => setFormData({ ...formData, job: { ...formData.job, description: x } })} label={"Short Description"} value={formData.job.description} />
 
                         <Textarea label="Note/More Details" onValueChange={x => setFormData({ ...formData, job: { ...formData.job, notes: x } })}/>
-                        <Input />
+                        <Picker label="Start Time" onChange={x => setFormData({ ...formData, job: { ...formData.job, startTime: x } })}/>
+                        <Picker label="Estimated Finished Time" onChange={x => setFormData({ ...formData, job: { ...formData.job, estimatedFinishTime: x } })}/>
+                        <Picker label="Pickup time" onChange={x => setFormData({ ...formData, job: { ...formData.job, pickupTime: x } })}/>
 
                       </div>
                       <div className="w-1/2 space-y-2">
@@ -248,6 +279,13 @@ export default function CreateJobCard() {
                         <Input />
 
                       </div>
+
+{/* Estimated work hours */}
+{/* Order Number */}
+{/* Odometer */}
+{/* Hubodometer */}
+{/* Engine Hours */}
+
 
                       {/* <Checkbox size="sm" isSelected={formData.job.courtesyVehicle}>Courtesy Vehicle</Checkbox> */}
 
@@ -296,9 +334,17 @@ Courtesy Vehicle */}
                 <Button color="danger" variant="flat" onPress={onClose}>
                   Close
                 </Button>
-                {/* <Button color="primary" onPress={onClose}>
-                  Sign in
-                </Button> */}
+                <Button color="primary" onPress={() => {
+                  let mf = missingField()
+                  if(mf) {
+                    toast.error(`Please fill out ${mf}`)
+                  } else {
+                    toast.success("ok")
+                  }
+
+                }}>
+                  Create Job
+                </Button>
               </ModalFooter>
             </>
           )}
