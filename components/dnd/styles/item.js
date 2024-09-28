@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from '@xstyled/styled-components';
 import { borderRadius, grid } from './constants';
 import {Card, CardHeader, CardBody, CardFooter, Avatar, Button} from "@nextui-org/react";
 import { format } from 'timeago.js';
-
+import KanbanCard from "@/components/common/KanbanCard"
 
 
 const getBackgroundColor = (isDragging, isGroupedOver, authorColors) => {
@@ -144,12 +144,15 @@ function getStyle(provided, style) {
 // Need to be super sure we are not relying on PureComponent here for
 // things we should be doing in the selector as we do not know if consumers
 // will be using PureComponent
+
 function QuoteItem(props) {
   const { quote, isDragging, isGroupedOver, provided, style, isClone, index } = props;
+  const [card, setCard] = useState(0)
 
   // return <div className="bg-red-400">{quote.id}</div>
 
-  return (
+  return <>
+    {card > 0 && <KanbanCard/>}
     <div
       // href={quote.author.url}
       isDragging={isDragging}
@@ -164,7 +167,10 @@ function QuoteItem(props) {
       data-testid={quote.id}
       data-index={index}
       aria-label={`${quote.name}`}
-      onClick={() => alert('click')}
+      onClick={(e) => {
+        e.stopPropagation()
+        setCard(card + 1)
+      }}
       className={`${quote.status === "finished" ? "bg-green-200 border-green-600" : "bg-blue-200 border-blue-600"} border p-2 my-2 rounded`}
     >
 
@@ -185,7 +191,7 @@ function QuoteItem(props) {
       </div>
     </div>
     </div>
-  );
+    </>
 }
 
 export default React.memo(QuoteItem);
