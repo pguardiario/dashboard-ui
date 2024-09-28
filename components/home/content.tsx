@@ -2,7 +2,7 @@
 import React from "react";
 import dynamic from "next/dynamic";
 import { TableWrapper } from "../table/table";
-import CreateJobCard from "./createJobCard";
+import CreateJobCard from "@/components/common/createJobCard";
 import { CardBalance2 } from "./card-balance2";
 import { CardBalance3 } from "./card-balance3";
 import { CardAgents } from "./card-agents";
@@ -35,7 +35,7 @@ export const Content = () => {
           <div className="flex flex-col gap-2">
             {/* <h3 className="text-xl font-semibold">Available Balance</h3> */}
             <div className="grid md:grid-cols-2 grid-cols-1 2xl:grid-cols-3 gap-5  justify-center w-full">
-              <CreateJobCard />
+              <CreateJobCard label="New Job" isBooking={false}/>
               {/* <CardBalance2 />
               <CardBalance3 /> */}
             </div>

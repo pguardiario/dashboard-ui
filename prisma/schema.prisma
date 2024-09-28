@@ -146,6 +146,11 @@ model customers {
   creditor              String?
   createdAt             DateTime
   lastInvoiceDate       DateTime?
+
+
+
+
+
 }
 
 model vehicles {
@@ -191,39 +196,69 @@ model vehicles {
 }
 
 model jobs {
-  id                 Int  @id @default(autoincrement())
+  id                 Int       @id @default(autoincrement())
   customerId         Int?
   vehicleId          Int?
-  jobNumber String?
-  status String?
-  orderNumber String?
-  keyTag String?
-  vehicleNumber String?
-  vehicle String?
+  jobNumber          String?
+  status             String?
+  orderNumber        String?
+  keyTag             String?
+  vehicleNumber      String?
+  vehicle            String?
   registrationNumber String?
-  fleetNumber String?
-  chassisNumber String?
-  vin String?
-  jobName String?
-  jobEmail String?
-  jobPhone String?
-  jobID String?
-  jobType String?
-  description String?
-  time DateTime?
-  finishTime DateTime?
-  estimateHours String?
-  finishedBy String?
-  onHold String?
-  onHoldReason String?
-  odometer String?
-  comments String?
-  notes String?
-  tags String?
-  invoiceNumber String?
-  nextServiceDate DateTime?
-  bookedBy String?
-  createdBy String?
-  assignedTo String?
-  createdAt DateTime
+  fleetNumber        String?
+  chassisNumber      String?
+  vin                String?
+  jobName            String?
+  jobEmail           String?
+  jobPhone           String?
+  jobID              String?
+  jobType            String?
+  description        String?
+  time               DateTime?
+  finishTime         DateTime?
+  pickupTime         DateTime?
+  estimateHours      String?
+  finishedBy         String?
+  onHold             String?
+  onHoldReason       String?
+  odometer           String?
+  comments           String?
+  notes              String?
+  tags               String?
+  invoiceNumber      String?
+  nextServiceDate    DateTime?
+
+  courtesyVehicle      Boolean?
+  invoiceToThirdParty      Boolean?
+  estimatedWorkHours      String?
+  hubodometer      String?
+  engineHours      String?
+  isBooking Boolean
+
+  bookedBy           String?
+  createdBy          String?
+  assignedTo         String?
+  createdAt          DateTime
+}
+
+
+
+
+
+
+
+
+
+
+
+model notes {
+  id         Int      @id @default(autoincrement())
+  startDate  DateTime
+  endDate    DateTime
+  note       String
+  officeOnly Boolean
+  createdAt  DateTime
+  createdBy  String
+  status String?
 }

@@ -15,6 +15,8 @@ export const signJWT = async (payload) => {
   }
 }
 
+
+
 export const verifyJWT = async (token) => {
   try {
     return (
@@ -27,4 +29,9 @@ export const verifyJWT = async (token) => {
     console.log(error);
     throw new Error("Your token has expired.");
   }
+}
+
+export const getUser = async (req) => {
+  let token = req.cookies.get('userAuth').value
+  return await verifyJWT(token)
 }

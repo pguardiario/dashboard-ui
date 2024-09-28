@@ -7,6 +7,14 @@ import Column from "./Column";
 import reorder, { reorderQuoteMap } from "../reorder";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 
+import ColumnMenu from "@/components/common/ColumnMenu"
+
+
+
+
+
+
+
 const Container = styled.div`
   background-color: ${colors.B100};
   min-height: 100vh;
@@ -14,6 +22,7 @@ const Container = styled.div`
   min-width: 100vw;
   display: inline-flex;
 `;
+
 
 const Board = ({
   isCombineEnabled,
@@ -24,8 +33,8 @@ const Board = ({
   statuses
 }) => {
   const [columns, setColumns] = useState(initial);
-
   const [ordered, setOrdered] = useState(Object.keys(initial));
+  const [showMenu, setShowMenu] = useState(0)
 
   const onDragEnd = (result) => {
     if (result.combine) {
@@ -83,8 +92,16 @@ const Board = ({
     setColumns(data.quoteMap);
   };
 
+  function onClick(){
+    setShowMenu(showMenu + 1)
+  }
+
   return (
     <>
+      {showMenu && <ColumnMenu key={showMenu} onClose={() => {
+        setMenuOpen(false)
+        alert('x')
+      }}/>}
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable
           droppableId="board"
@@ -104,6 +121,7 @@ const Board = ({
                   isScrollable={withScrollableColumns}
                   isCombineEnabled={isCombineEnabled}
                   useClone={useClone}
+                  onClick={onClick}
                 />
               ))}
               {provided.placeholder}

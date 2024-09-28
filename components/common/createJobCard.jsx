@@ -74,7 +74,7 @@ function VehiclesSelect({ vehicles, onChange }) {
   );
 }
 
-export default function CreateJobCard() {
+export default function CreateJobCard({label, isBooking}) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [tab, setTab] = useState()
   const [vehicles, setVehicles] = useState([])
@@ -101,7 +101,7 @@ export default function CreateJobCard() {
       setTab('vehicle')
       return "Vehicle Make"
     }
-    if (!formData.job.jobTypes) {
+    if (!formData.job.jobType) {
       setTab('job')
       return "Job Types"
     }
@@ -157,9 +157,22 @@ export default function CreateJobCard() {
     return formData[key][map[label]] || ""
   }
 
+
+  function submitForm(callback){
+    fetch("/api/jobs", {
+      headers: {"Content-Type": "application/json"},
+      method: "POST",
+      body: JSON.stringify({...formData, isBooking})
+    }).then(r => r.json()).then(job => {
+      toast.success("New Job Added!")
+      callback()
+    })
+    // alert(JSON.stringify(data))
+  }
+
   return (
     <>
-      <Button onPress={onOpen} color="primary">Create Job Card</Button>
+      <Button onPress={onOpen} color="primary">{label}</Button>
       <Modal
         isOpen={isOpen}
         onOpenChange={onOpenChange}
@@ -170,7 +183,7 @@ export default function CreateJobCard() {
         <ModalContent>
           {(onClose) => (
             <>
-              <ModalHeader className="flex flex-col gap-1">Create Job Card</ModalHeader>
+              <ModalHeader className="flex flex-col gap-1">{label}</ModalHeader>
               <ModalBody>
                 <Tabs
                   aria-label="Options"
@@ -221,6 +234,8 @@ export default function CreateJobCard() {
 
                 <form id="create-job">
                   <div className={tab === "owner" ? "" : "hidden"}>
+                  {/* {JSON.stringify(formData.owner)} */}
+
                     <div className="flex items-center" >
                       <div className="flex-1">
                         <Suggest model="customers" onChange={fillOwner} />
@@ -233,7 +248,7 @@ export default function CreateJobCard() {
                         return <Input key={i} size="sm" type="text" onValueChange={(x) => changeValue(x, "owner", customersMap, label)} label={label} value={valueFor("owner", customersMap, label)} />
                       })}
                       <Input size="sm" type="number" label="Default Discount" min={0} />
-                      <Checkbox size="sm" isSelected={formData.owner.isCompany === "Y"}>Is Company</Checkbox>
+                      <Checkbox size="sm" isSelected={formData.owner.isCompany}onChange={e => setFormData({ ...formData, vehicle: { ...formData.owner, isCompany: e.target.checked } })}>Is Company</Checkbox>
 
                     </div>
                     <Button variant="ghost" color="primary" onClick={() => setShowMoreOwner(!showMoreOwner)}>{showMoreOwner ? "Show Less" : "Show More"}</Button>
@@ -241,7 +256,8 @@ export default function CreateJobCard() {
                   </div>
 
                   <div className={tab === "vehicle" ? "" : "hidden"}>
-                    {/* <Suggest model="customers" onChange={fillOwner} /> */}
+                  {/* {JSON.stringify(formData.vehicle)} */}
+                  {/* <Suggest model="customers" onChange={fillOwner} /> */}
                     {/* {JSON.stringify(vehicles)} */}
 
                     <div className="flex items-center space-x-3" >
@@ -269,21 +285,21 @@ export default function CreateJobCard() {
 
                   <div className={tab === "job" ? "" : "hidden"}>
                     {/* <Suggest model="customers" onChange={fillOwner} /> */}
-                    {/* {JSON.stringify(vehicles)} */}
+                    {/* {JSON.stringify(formData.job)} */}
 
                     <div className="flex items-center" >
                       <div className="flex-1"></div>
                       <Button onClick={() => setFormData({ ...formData, job: {} })} color="danger">Clear</Button>
                     </div>
 
-                    {JSON.stringify(formData.job)}
+
                     <div className="flex space-x-2 mt-4">
                       <div className="w-1/2 space-y-2">
                         <Input size="sm" type="text" onValueChange={(x) => setFormData({ ...formData, job: { ...formData.job, description: x } })} label={"Short Description"} value={formData.job.description} />
 
                         <Textarea label="Note/More Details" onValueChange={x => setFormData({ ...formData, job: { ...formData.job, notes: x } })} />
-                        <Picker label="Start Time" onChange={x => setFormData({ ...formData, job: { ...formData.job, startTime: x } })} />
-                        <Picker label="Estimated Finished Time" onChange={x => setFormData({ ...formData, job: { ...formData.job, estimatedFinishTime: x } })} />
+                        <Picker label="Start Time" onChange={x => setFormData({ ...formData, job: { ...formData.job, time: x } })} />
+                        <Picker label="Estimated Finished Time" onChange={x => setFormData({ ...formData, job: { ...formData.job, finishTime: x } })} />
                         <Picker label="Pickup time" onChange={x => setFormData({ ...formData, job: { ...formData.job, pickupTime: x } })} />
                         <div>
                         <Checkbox size="sm" isSelected={formData.job.courtesyVehicle} onChange={e => setFormData({ ...formData, job: { ...formData.job, courtesyVehicle: e.target.checked } })}>Courtesy Vehicle</Checkbox>
@@ -292,12 +308,11 @@ export default function CreateJobCard() {
                         <Checkbox size="sm" isSelected={formData.job.invoiceToThirdParty} onChange={e => setFormData({ ...formData, job: { ...formData.job, invoiceToThirdParty: e.target.checked } })}>Invoice To 3rd Party</Checkbox>
                         </div>
 
-
-
                       </div>
+
                       <div className="w-1/2 space-y-2">
-                        <MultipleSelect values={jobTypes} label="Job Type" onChange={(x) => setFormData({ ...formData, job: { ...formData.job, jobTypes: x } })} />
-                        <MultipleSelect values={mechanics} label="Mechanic" onChange={(x) => setFormData({ ...formData, job: { ...formData.job, mechanics: x } })} />
+                        <MultipleSelect values={jobTypes} label="Job Type" onChange={(x) => setFormData({ ...formData, job: { ...formData.job, jobType: x } })} />
+                        <MultipleSelect values={mechanics} label="Mechanic" onChange={(x) => setFormData({ ...formData, job: { ...formData.job, assignedTo: x } })} />
                         {[{ key: "estimatedWorkHours", label: "Estimated work hours" },
                         { key: "orderNumber", label: "Order Number" },
                         { key: "odometer", label: "Odometer" },
@@ -310,51 +325,12 @@ export default function CreateJobCard() {
 
                       </div>
 
-
-
-
-
                       {/* <Checkbox size="sm" isSelected={formData.job.courtesyVehicle}>Courtesy Vehicle</Checkbox> */}
 
                     </div>
 
 
                   </div>
-
-                  {/* Invoice To 3rd Party
-What's this?
-
- New
-Short Description
-Note/More Details
-Add a note
-Job Types
-Pick job types...
-New
-Mechanics
-Show Schedule
-Brendan Stern×Joseph Celetaria×
-Start Time
-27/09/2024
-
-11.25 am
-Estimated Finished Time
-
-N/A
-Pickup time
-27/09/2024
-
-3.00 pm
-Estimated work hours
-Order Number
-Odometer
-Hubodometer
-Engine Hours
-Courtesy Vehicle */}
-
-
-
-
                 </form>
               </ModalBody>
               <ModalFooter>
@@ -366,7 +342,7 @@ Courtesy Vehicle */}
                   if (mf) {
                     toast.error(`Please fill out ${mf}`)
                   } else {
-                    toast.success("Coming Soon!")
+                    submitForm(onClose)
                   }
 
                 }}>

@@ -27,14 +27,16 @@ const Header = styled.div`
   }
 `;
 
-const Column = (props) => {
-  const title = props.title;
-  const quotes = props.quotes;
-  const index = props.index;
+const Column = ({title, quotes, index, isScrollable, isCombineEnabled, useClone, onClick}) => {
+
+  // const title = props.title;
+  // const quotes = props.quotes;
+  // const index = props.index;
+
   return (
     <Draggable draggableId={title} index={index}>
       {(provided, snapshot) => (
-        <Container ref={provided.innerRef} {...provided.draggableProps}>
+        <Container ref={provided.innerRef} {...provided.draggableProps} onClick={onClick}>
           {/* <Header isDragging={snapshot.isDragging}>
             <Title
               isDragging={snapshot.isDragging}
@@ -52,9 +54,9 @@ const Column = (props) => {
               backgroundColor: snapshot.isDragging ? colors.G50 : null
             }}
             quotes={quotes}
-            internalScroll={props.isScrollable}
-            isCombineEnabled={Boolean(props.isCombineEnabled)}
-            useClone={Boolean(props.useClone)}
+            internalScroll={isScrollable}
+            isCombineEnabled={Boolean(isCombineEnabled)}
+            useClone={Boolean(useClone)}
           />
         </Container>
       )}

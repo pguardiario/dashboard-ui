@@ -1,25 +1,21 @@
 "use client"
 import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@nextui-org/react";
-import { useSidebarContext } from "./layout/layout-context";
+import { useSidebarContext } from "@/components/layout/layout-context";
 
-import { generateQuoteMap } from './dnd/mockData';
 
-import Board from './dnd/board/Board';
-import { ChevronDownIcon } from "./icons/sidebar/chevron-down-icon";
+import Board from '@/components/dnd/board/Board';
+import { ChevronDownIcon } from "@/components/icons/sidebar/chevron-down-icon";
 import { useState } from "react";
-import CreateJobCard from "./home/createJobCard";
+import CreateJobCard from "@/components/common/createJobCard";
 
 
 
-export default function Diary({ data }) {
+export default function Diary({ initData }) {
+  let {notes, data} = initData
   const { collapsed, setCollapsed } = useSidebarContext();
   const [statusFilter, setStatusFilter] = useState("all");
   const [statuses, setStatuses] = useState(["new", "finished"]);
 
-  const boardData = {
-    medium: generateQuoteMap(100),
-    large: generateQuoteMap(500),
-  };
 
 
   let {
@@ -50,7 +46,7 @@ export default function Diary({ data }) {
     all_days,
     bookings,
     jobs,
-    notes
+    // notes
   } = data
 
   let fromDate = new Date(from)
@@ -99,12 +95,13 @@ export default function Diary({ data }) {
   return <div className={`${collapsed ? "" : "ml-[250px]"} p-6 space-y-3`}>
     <h1>Diary</h1>
     <hr />
+    {JSON.stringify(notes)}
 
     <div className="flex itens-center space-x-3">
       <div className="flex-1">
         <p className="font-bold">{numJobs} jobs</p>
       </div>
-      <CreateJobCard/>
+      <CreateJobCard label="New Job"/>
       <div className="">
         <Dropdown>
           <DropdownTrigger className="hidden sm:flex">

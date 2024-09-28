@@ -13,7 +13,7 @@ export const createAuthCookie = async (values: any) => {
     where: values
   })
   if(user){
-    let token = await signJWT(values)
+    let token = await signJWT(user)
     cookies().set("userAuth", token, { secure: true });
     cookies().set("email", user.email, { secure: true });
     cookies().set("name", user.name, { secure: true });
