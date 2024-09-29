@@ -31,7 +31,7 @@ export async function POST(req) {
   if(headers['x-xero-signature'] === computedSignature){
     let data = JSON.parse(buffer)
     let ts = new Date().getTime()
-    fs.writeFileSync(`payoads/${ts}.json`, JSON.stringify(data, null, 2))
+    fs.writeFileSync(`payloads/${ts}.json`, JSON.stringify(data, null, 2))
     // debugger
     return NextResponse.json({ok: true});
   } else {
