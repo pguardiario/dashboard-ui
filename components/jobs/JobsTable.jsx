@@ -286,13 +286,8 @@ export default function JobsTable({ initData, isCompact }) {
                 ))}
               </DropdownMenu>
             </Dropdown>
-            <Button
-              className="bg-foreground text-background"
-              endContent={<PlusIcon />}
-              size="sm"
-            >
-              Add New
-            </Button>
+            <CreateJobCard label="Add New" isBooking={false}/>
+
           </div>
         </div>
         <div className="flex justify-between items-center">
