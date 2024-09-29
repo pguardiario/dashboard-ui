@@ -306,3 +306,17 @@ model invoices {
   invoiceItems Json
   tags String?
 }
+
+model invoicePayments {
+  id         Int      @id @default(autoincrement())
+  paymentNumber String?
+  reference String?
+  invoiceNumber String?
+  invoiceIssueDate DateTime?
+  date DateTime?
+  customer String?
+  amount String?
+  paymentType String?
+  originalPaymentNumber String?
+  createdAt DateTime
+}
