@@ -64,17 +64,19 @@ export const Content = () => {
       {/* Table Latest Users */}
       <div className="grid grid-cols-2 gap-3 p-6">
         <div className="p-6">
-          <h1>Jobs</h1>
+          <h1 className="text-xl font-bold">Jobs</h1>
           <JobsTable initData={[]} isCompact={true}/>
         </div>
         <div className="p-6">
-          <h1>Invoices</h1>
+          <h1 className="text-xl font-bold">Invoices</h1>
+          <p>Coming Soon</p>
         </div>
         <div className="p-6">
-          <h1>Bookings</h1>
+          <h1 className="text-xl font-bold">Bookings</h1>
+          <p>Coming Soon</p>
         </div>
         <div className="p-6">
-          <h1>Jobs Again</h1>
+          <h1 className="text-xl font-bold">Jobs Again</h1>
           <JobsTable initData={[]} isCompact={true}/>
         </div>
 

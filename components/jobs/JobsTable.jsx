@@ -72,7 +72,7 @@ export default function JobsTable({ initData, isCompact }) {
   const [selectedKeys, setSelectedKeys] = React.useState(new Set([]));
 
   const INITIAL_VISIBLE_COLUMNS = isCompact ?
-  ["createdBy", "time", "description", "status"] :
+  ["createdBy", "time", "description", "status", "actions"] :
   ["id", "createdBy", "assignedTo", "time", "finishTime", "description", "vehicle", "registrationNumber", "fleetNumber", "customer", "status","actions"];
 
   const [visibleColumns, setVisibleColumns] = React.useState(new Set(INITIAL_VISIBLE_COLUMNS));
