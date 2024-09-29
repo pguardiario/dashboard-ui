@@ -62,7 +62,7 @@ export const Content = () => {
       </div>
 
       {/* Table Latest Users */}
-      <div className="grid grid-cols-2 gap-3 p-6">
+      <div className="grid lg:grid-cols-2 gap-3 p-6">
         <div className="p-6">
           <h1 className="text-xl font-bold">Jobs</h1>
           <JobsTable initData={[]} isCompact={true}/>
