@@ -18,8 +18,6 @@ import {
   Pagination,
   Tooltip,
 } from "@nextui-org/react";
-import { PlusIcon } from "@/components/icons/PlusIcon";
-import { VerticalDotsIcon } from "@/components/icons/VerticalDotsIcon";
 import { SearchIcon } from "@/components/icons/searchicon";
 import { DeleteIcon } from "@/components/icons/DeleteIcon";
 import { EditIcon } from "@/components/icons/EditIcon";
