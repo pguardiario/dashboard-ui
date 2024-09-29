@@ -47,7 +47,7 @@ const columnMap = {
   "Vehicle Registration Number": "vehicleRegistrationNumber",
   "Vehicle Fleet Number": "vehicleFleetNumber",
   "Odometer": "odometer",
-  "Customer ID": "customerID",
+  // "Customer ID": "customerID",
   "Customer Number": "customerNumber",
   "Customer Special Account Number": "customerSpecialAccountNumber",
   "Customer Name": "customerName",
@@ -105,7 +105,7 @@ async function run() {
 
     item.createdAt = chrono.parseDate(item.createdAt)
     item.finalizedAt = item.finalizedAt ? chrono.parseDate(item.finalizedAt) : null
-    item.customerID = item.customerID ? Number(item.customerID) : null
+    // item.customerID = item.customerID ? Number(item.customerID) : null
     item.jobNumber = item.jobNumber ? Number(item.jobNumber) : null
     item.jobStartDate = item.jobStartDate ? chrono.parseDate(item.jobStartDate) : null
     item.jobEndDate = item.jobEndDate ? chrono.parseDate(item.jobEndDate) : null
