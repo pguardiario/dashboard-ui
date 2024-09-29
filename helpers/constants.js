@@ -116,10 +116,18 @@ export const jobTypes = [
 ]
 
 export const mechanics = [
-  { key: "Arden Connell", label: "Arden Connell" },
-  { key: "Brett Minahan", label: "Brett Minahan" },
-  { key: "David Smith", label: "David Smith" },
-  { key: "Kieran Smith", label: "Kieran Smith" },
-  { key: "Leonie", label: "Leonie" },
-  { key: "Troy", label: "Troy" },
+  { key: "Arden Connell", label: "Arden Connell", email: "addlater@gmail.com", avatar: "https://i.pravatar.cc/150?u=a04258114e29026702d" },
+  { key: "Brett Minahan", label: "Brett Minahan", email: "addlater@gmail.com", avatar: "https://i.pravatar.cc/150?u=a048581f4e29026701d" },
+  { key: "David Smith", label: "David Smith", email: "addlater@gmail.com", avatar: "https://i.pravatar.cc/150?u=a092581d4ef9026700d" },
+  { key: "Kieran Smith", label: "Kieran Smith", email: "addlater@gmail.com", avatar: "https://i.pravatar.cc/150?u=a042581f4e29027007d" },
+  { key: "Leonie", label: "Leonie", email: "addlater@gmail.com" },
+  { key: "Troy", label: "Troy", email: "addlater@gmail.com", avatar: "https://i.pravatar.cc/150?u=a042581f4e29026704d" },
 ]
+
+export const salesPeople = [
+  { key: "PG", label: "PG", email: "addlater@gmail.com"  },
+  { key: "Brendan Stern", label: "Brendan Stern", email: "addlater@gmail.com", avatar: "https://i.pravatar.cc/150?u=a048581f4e29026701d" },
+
+]
+
+export const allPeople = [...mechanics, ...salesPeople]

@@ -95,7 +95,7 @@ export default function Diary({ initData }) {
   return <div className={`${collapsed ? "" : "ml-[250px]"} p-6 space-y-3`}>
     <h1>Diary</h1>
     <hr />
-    {JSON.stringify(notes)}
+    {/* {JSON.stringify(notes)} */}
 
     <div className="flex itens-center space-x-3">
       <div className="flex-1">

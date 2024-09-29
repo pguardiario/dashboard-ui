@@ -53,7 +53,7 @@ export const SidebarWrapper = () => {
                 isActive={pathname === "/jobs"}
                 title="Jobs"
                 icon={<AccountsIcon />}
-                href="accounts"
+                href="jobs"
               />
 
 

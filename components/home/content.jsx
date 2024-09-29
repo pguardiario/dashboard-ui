@@ -10,6 +10,7 @@ import { CardTransactions } from "./card-transactions";
 import { Link } from "@nextui-org/react";
 import NextLink from "next/link";
 import { useSidebarContext } from "@/components/layout/layout-context";
+import JobsTable from "@/components/jobs/JobsTable"
 const Chart = dynamic(
   () => import("../charts/steam").then((mod) => mod.Steam),
   {
@@ -51,30 +52,35 @@ export const Content = () => {
         </div>
 
         {/* Left Section */}
-        <div className="mt-4 gap-2 flex flex-col xl:max-w-md w-full">
+        {/* <div className="mt-4 gap-2 flex flex-col xl:max-w-md w-full">
           <h3 className="text-xl font-semibold">Section</h3>
           <div className="flex flex-col justify-center gap-4 flex-wrap md:flex-nowrap md:flex-col">
             <CardAgents />
             <CardTransactions />
           </div>
-        </div>
+        </div> */}
       </div>
 
       {/* Table Latest Users */}
-      <div className="flex flex-col justify-center w-full py-5 px-4 lg:px-0  max-w-[90rem] mx-auto gap-3">
-        <div className="flex  flex-wrap justify-between">
-          <h3 className="text-center text-xl font-semibold">Latest Users</h3>
-          <Link
-            href="/accounts"
-            as={NextLink}
-            color="primary"
-            className="cursor-pointer"
-          >
-            View All
-          </Link>
+      <div className="grid grid-cols-2 gap-3 p-6">
+        <div className="p-6">
+          <h1>Jobs</h1>
+          <JobsTable initData={[]} isCompact={true}/>
         </div>
-        <TableWrapper />
+        <div className="p-6">
+          <h1>Invoices</h1>
+        </div>
+        <div className="p-6">
+          <h1>Bookings</h1>
+        </div>
+        <div className="p-6">
+          <h1>Jobs Again</h1>
+          <JobsTable initData={[]} isCompact={true}/>
+        </div>
+
       </div>
+
+
     </div>
   )
 }

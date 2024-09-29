@@ -2,6 +2,19 @@ import { NextResponse } from "next/server";
 import prisma from "@/src/db"
 import {getUser} from "@/src/token"
 
+export async function GET(req) {
+  let user = await getUser(req)
+  const jobs = await prisma.jobs.findMany({
+    where: { status: {not: "deleted"} },
+    orderBy:[
+      {
+        createdAt: "desc"
+      }
+    ]
+  })
+  return NextResponse.json(jobs)
+}
+
 export async function POST(req) {
   let body = await req.json()
   let user = await getUser(req)
@@ -15,6 +28,9 @@ export async function POST(req) {
 
   let vehicleData = {...vehicle}
   delete vehicleData.id
+
+  // let jopbvehicleData = {...vehicle}
+  // delete vehicleData.id
 
   if(owner.id){
     ownerRecord = await prisma.customers.update({where: {id: owner.id}, data: ownerData})
@@ -30,6 +46,7 @@ export async function POST(req) {
       vehicleRecord = await prisma.vehicles.create({data: {...vehicleData, customerId: ownerRecord.id}})
     }
   }
+
 
   let createdAt = new Date()
   let createdBy = user.name
@@ -52,6 +69,7 @@ export async function POST(req) {
   if(isBooking){
     jobData.bookedBy = user.name
   }
+
 
   let result = await prisma.jobs.create({
     data: jobData

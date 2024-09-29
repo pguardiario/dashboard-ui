@@ -74,7 +74,7 @@ function VehiclesSelect({ vehicles, onChange }) {
   );
 }
 
-export default function CreateJobCard({label, isBooking}) {
+export default function CreateJobCard({label, isBooking, button, job}) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [tab, setTab] = useState()
   const [vehicles, setVehicles] = useState([])
@@ -85,8 +85,6 @@ export default function CreateJobCard({label, isBooking}) {
   let ownerLabels = showMoreOwner ? ["Name", "Mobile", "Phone", "Email", "Address", "Suburb", "State", "Postcode", "Street Address", "Street Address Suburb", "Street Address State", "Street Address Postcode", , "Fax", "Price Level", "Payment Term"] : ["Name", "Mobile", "Phone", "Email", "Address", "Suburb", "State", "Postcode"]
 
   let vehicleLabels = showMoreVehicle ? ["Registration Number", "Fleet Number", "Driver Name", "Driver Phone", "Driver Email", "Make", "Model", "Year", "VIN", "Color", "Body Type", "Service Interval", "Transmission Type", "Battery", "Odometer Unit", "Engine", "Engine Type", "Engine Oil Type", "Engine Oil Quantity", "Power Steering Oil Type", "Power Steering Oil Quantity", "Transmission Oil Type", "Transmission Oil Quantity", "Transfer Case Oil Type", "Transfer Case Oil Quantity", "Coolant Type", "Coolant Quantity", "Fuel Type", "Air Filter", "Oil Filter", "Fuel Filter", "Transmission Filter", "Hydraulic Filter", "Tyre Size"] : ["Registration Number", "Fleet Number", "Driver Name", "Driver Phone", "Driver Email", "Make", "Model", "Year", "VIN", "Color", "Body Type", "Service Interval"]
-
-
 
   if(formData.vehicle.noVehicleRequired){
     vehicleLabels=[]
@@ -170,9 +168,12 @@ export default function CreateJobCard({label, isBooking}) {
     // alert(JSON.stringify(data))
   }
 
+
   return (
     <>
-      <Button onPress={onOpen} color="primary">{label}</Button>
+
+      <Button onPress={onOpen}  color={button ? "" : "primary"}>{button ? button : label}</Button>
+
       <Modal
         isOpen={isOpen}
         onOpenChange={onOpenChange}
