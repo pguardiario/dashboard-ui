@@ -193,7 +193,7 @@ async function syncInvoice(invoice) {
 
 async function run() {
   const {access_token, expires_at} = await xero.getClientCredentialsToken()
-  for (let i = 1; i < 9999) {
+  for (let i = 1; i < 9999; i++) {
     console.log(i)
     let data = await fetch("https://api.xero.com/api.xro/2.0/Invoices?page=1&pageSize=100", {
       headers: {
