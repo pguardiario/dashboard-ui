@@ -78,11 +78,14 @@ async function syncInvoice(invoice) {
   } = invoice
 
 
-
+  let record = await prisma.invoices.findFirst({ where: { invoiceID } })
+if(!record){
+  debugger
+}
   let customer = await prisma.customers.findFirst({ where: { uuid: invoice.Contact.ContactNumber } })
   date = xeroDate(date)
-  dueDate = xeroDate(dueDate)
-  updatedDateUTC = xeroDate(updatedDateUTC)
+  dueDate = dueDate ? xeroDate(dueDate) : null
+  updatedDateUTC = updatedDateUTC ? xeroDate(updatedDateUTC) : null
 
   // let customer2 = await prisma.customers.findFirst({where: {uuid: invoice.Contact.ContactID}})
   // return
@@ -123,7 +126,6 @@ async function syncInvoice(invoice) {
     updatedDateUTC,
   }
 
-  let record = await prisma.invoices.findFirst({ where: { invoiceID } })
 
   if (record) {
     record = await prisma.invoices.update({ where: { id: record.id }, data: invoiceData })
@@ -193,7 +195,7 @@ async function syncInvoice(invoice) {
 
 async function run() {
   const {access_token, expires_at} = await xero.getClientCredentialsToken()
-  for (let i = 1; i < 9999; i++) {
+  for (let i = 63; i < 9999; i++) {
     console.log(i)
     let data = await fetch(`https://api.xero.com/api.xro/2.0/Invoices?page=${i}&pageSize=100`, {
       headers: {

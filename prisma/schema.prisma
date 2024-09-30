@@ -270,7 +270,7 @@ model invoices {
   invoicePaymentServices Json
   contact Json
   date DateTime
-  dueDate DateTime
+  dueDate DateTime?
   status String
   lineAmountTypes Json
   lineItems Json
