@@ -359,4 +359,3 @@ model invoicePayments {
 }
 
 
-select count(*), status from invoices group by status;
