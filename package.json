@@ -49,6 +49,7 @@
     "chrono-node": "^2.7.7",
     "csv-write-stream": "^2.0.0",
     "csvtojson": "^2.0.10",
+    "dotenv": "^16.4.5",
     "eslint": "8.23.1",
     "eslint-config-next": "13.4.16",
     "postcss": "^8.4.28",
