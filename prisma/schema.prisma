@@ -254,7 +254,7 @@ model invoices {
   customerId Int
   type String
   invoiceID String
-  invoiceNumber String
+  invoiceNumber String?
   reference String
   payments Json
   creditNotes Json
