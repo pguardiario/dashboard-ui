@@ -147,9 +147,7 @@ model customers {
   createdAt             DateTime
   lastInvoiceDate       DateTime?
 
-
-
-
+  @@unique([uuid])
 
 }
 
@@ -253,59 +251,98 @@ model notes {
 
 model invoices {
   id         Int      @id @default(autoincrement())
-  invoiceNumber String?
-  orderNumber String?
-  finalized String?
-  finalizedBy String?
-  finalizedAt DateTime?
-  vehicleNumber String?
-  vehicleRegistrationNumber String?
-  vehicleFleetNumber String?
-  odometer String?
-  customerID Int?
-  customerNumber String?
-  customerSpecialAccountNumber String?
-  customerName String?
-  customerFirstName String?
-  customerLastName String?
-  customerStreetAddress String?
-  customerSuburb String?
-  customerState String?
-  customerPostcode String?
-  customerEmail String?
-  customerMobile String?
-  originalSourceOfBusiness String?
-  defaultDiscountPercentage String?
-  isRepeatedCustomer String?
-  jobNumber Int?
-  jobStatus String?
-  jobStartDate DateTime?
-  jobEndDate DateTime?
-  firstJobType String?
-  description String?
-  issueDate DateTime?
-  dueDate DateTime?
-  netAmount String?
-  taxAmount String?
-  totalAmount String?
-  discountAmount String?
-  discountPercentage String?
-  paidAmount String?
-  amountDue String?
-  totalCost String?
-  firstPaymentType String?
-  secondPaymentType String?
-  firstPaymentDate String?
-  secondPaymentDate String?
-  comments String?
-  internalNotes String?
-  mechanics String?
-  thirdPartyAccountingSystemID String
-  createdAt DateTime
-  salesperson String?
-  invoiceItems Json
-  tags String?
+  customerId Int
+  type String
+  invoiceID String
+  invoiceNumber String
+  reference String
+  payments Json
+  creditNotes Json
+  prepayments Json
+  overpayments Json
+  amountDue Float
+  amountPaid Float
+  amountCredited Float
+  isDiscounted Boolean
+  hasAttachments Boolean
+  invoiceAddresses Json
+  hasErrors Boolean
+  invoicePaymentServices Json
+  contact Json
+  date DateTime
+  dueDate DateTime
+  status String
+  lineAmountTypes Json
+  lineItems Json
+  subTotal Float
+  totalTax Float
+  total Float
+  updatedDateUTC DateTime
+
+  // invoiceNumber String?
+  // orderNumber String?
+  // finalized String?
+  // finalizedBy String?
+  // finalizedAt DateTime?
+  // vehicleNumber String?
+  // vehicleRegistrationNumber String?
+  // vehicleFleetNumber String?
+  // odometer String?
+  // customerID Int?
+  // customerNumber String?
+  // customerSpecialAccountNumber String?
+  // customerName String?
+  // customerFirstName String?
+  // customerLastName String?
+  // customerStreetAddress String?
+  // customerSuburb String?
+  // customerState String?
+  // customerPostcode String?
+  // customerEmail String?
+  // customerMobile String?
+  // originalSourceOfBusiness String?
+  // defaultDiscountPercentage String?
+  // isRepeatedCustomer String?
+  // jobNumber Int?
+  // jobStatus String?
+  // jobStartDate DateTime?
+  // jobEndDate DateTime?
+  // firstJobType String?
+  // description String?
+  // issueDate DateTime?
+  // dueDate DateTime?
+  // netAmount String?
+  // taxAmount String?
+  // totalAmount String?
+  // discountAmount String?
+  // discountPercentage String?
+  // paidAmount String?
+  // amountDue String?
+  // totalCost String?
+  // firstPaymentType String?
+  // secondPaymentType String?
+  // firstPaymentDate String?
+  // secondPaymentDate String?
+  // comments String?
+  // internalNotes String?
+  // mechanics String?
+  // thirdPartyAccountingSystemID String
+  // createdAt DateTime
+  // salesperson String?
+  // lineItems Json
+  // tags String?
+
+  @@unique([invoiceID])
 }
+
+
+
+
+
+
+
+
+
 
 model invoicePayments {
   id         Int      @id @default(autoincrement())
