@@ -69,6 +69,12 @@ export const SidebarWrapper = () => {
                 icon={<PaymentsIcon />}
                 href="datire"
               />
+              <SidebarItem
+                isActive={pathname === "reports/users"}
+                title="Reports / Users"
+                icon={<PaymentsIcon />}
+                href="reports/users"
+              />
               <CollapseItems
                 icon={<BalanceIcon />}
                 items={["Customers & Vehicles", "Invoices & Bills", "Inventory & Suppliers", "Service Schedules", "Reports", "Timesheets", "POS", "Settings", "Help"]}

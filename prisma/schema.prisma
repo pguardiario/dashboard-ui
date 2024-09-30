@@ -357,3 +357,6 @@ model invoicePayments {
   originalPaymentNumber String?
   createdAt DateTime
 }
+
+
+select count(*), status from invoices group by status;
