@@ -46,6 +46,54 @@ async function addCustomerFromXero(data) {
 
 const xeroDate = date => new Date(Number(date.match(/\d+/)[0]))
 
+async function updateLineItem(lineItem, invoiceID, date){
+  let {
+    ItemCode: itemCode,
+    Description: description,
+    UnitAmount: unitAmount,
+    TaxType: taxType,
+    TaxAmount: taxAmount,
+    LineAmount: lineAmount,
+    AccountCode: accountCode,
+    Item: item,
+    Tracking: tracking,
+    Quantity: quantity,
+    LineItemID: lineItemID,
+    AccountID: accountID,
+  } = lineItem
+  let {
+    ItemID: itemID, Name: name, Code: code
+  } = item || {}
+
+  let record = await prisma.lineItems.findFirst({where: {lineItemID}})
+  if(record){
+    return
+  }
+
+  if(!accountCode){
+    // debugger
+  }
+
+  record = await prisma.lineItems.create({data: {
+    itemCode,
+    description,
+    unitAmount,
+    taxType,
+    taxAmount,
+    lineAmount,
+    accountCode,
+    quantity,
+    lineItemID,
+    accountID,
+    itemID,
+    name,
+    code,
+    invoiceID,
+    date,
+  }})
+  return record
+}
+
 async function syncInvoice(invoice) {
   let {
     Type: type,
@@ -77,15 +125,19 @@ async function syncInvoice(invoice) {
     UpdatedDateUTC: updatedDateUTC
   } = invoice
 
-
-  let record = await prisma.invoices.findFirst({ where: { invoiceID } })
-if(!record){
-  debugger
-}
   let customer = await prisma.customers.findFirst({ where: { uuid: invoice.Contact.ContactNumber } })
   date = xeroDate(date)
   dueDate = dueDate ? xeroDate(dueDate) : null
   updatedDateUTC = updatedDateUTC ? xeroDate(updatedDateUTC) : null
+
+  for(let item of lineItems){
+    updateLineItem(item, invoiceID, date)
+  }
+
+  let record = await prisma.invoices.findFirst({ where: { invoiceID } })
+  if (record) {
+    return
+  }
 
   // let customer2 = await prisma.customers.findFirst({where: {uuid: invoice.Contact.ContactID}})
   // return
@@ -194,8 +246,8 @@ if(!record){
 }
 
 async function run() {
-  const {access_token, expires_at} = await xero.getClientCredentialsToken()
-  for (let i = 112; i < 9999; i++) {
+  const { access_token, expires_at } = await xero.getClientCredentialsToken()
+  for (let i = 1; i < 9999; i++) {
     console.log(i)
     let data = await fetch(`https://api.xero.com/api.xro/2.0/Invoices?page=${i}&pageSize=100`, {
       headers: {
@@ -211,7 +263,7 @@ async function run() {
       await syncInvoice(row)
     }
 
-    if(data.Invoices.length < 100){
+    if (data.Invoices.length < 100) {
       break
     }
   }

@@ -1,0 +1,25 @@
+{
+  "events": [
+    {
+      "resourceUrl": "https://api.xero.com/api.xro/2.0/Invoices/94d74d09-0180-48ca-95d1-39f875bdb5ef",
+      "resourceId": "94d74d09-0180-48ca-95d1-39f875bdb5ef",
+      "tenantId": "1cbcc41d-efa5-445b-82d1-1407b5a1604b",
+      "tenantType": "ORGANISATION",
+      "eventCategory": "INVOICE",
+      "eventType": "CREATE",
+      "eventDateUtc": "2024-09-30T05:19:01.935"
+    },
+    {
+      "resourceUrl": "https://api.xero.com/api.xro/2.0/Contacts/1a22c32e-1bf1-4a69-8c11-775e8ed207eb",
+      "resourceId": "1a22c32e-1bf1-4a69-8c11-775e8ed207eb",
+      "tenantId": "1cbcc41d-efa5-445b-82d1-1407b5a1604b",
+      "tenantType": "ORGANISATION",
+      "eventCategory": "CONTACT",
+      "eventType": "UPDATE",
+      "eventDateUtc": "2024-09-30T05:19:02.897"
+    }
+  ],
+  "firstEventSequence": 31,
+  "lastEventSequence": 32,
+  "entropy": "URZSDHHIIOCIJOJXHPXK"
+}

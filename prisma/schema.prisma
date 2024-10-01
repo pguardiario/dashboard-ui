@@ -148,7 +148,6 @@ model customers {
   lastInvoiceDate       DateTime?
 
   @@unique([uuid])
-
 }
 
 model vehicles {
@@ -194,48 +193,48 @@ model vehicles {
 }
 
 model jobs {
-  id                 Int       @id @default(autoincrement())
-  customerId         Int?
-  vehicleId          Int?
-  jobNumber          String?
-  status             String?
-  orderNumber        String?
-  keyTag             String?
-  vehicleNumber      String?
-  vehicle            String?
-  registrationNumber String?
-  fleetNumber        String?
-  chassisNumber      String?
-  vin                String?
-  jobName            String?
-  jobEmail           String?
-  jobPhone           String?
-  jobID              String?
-  jobType            String?
-  description        String?
-  time               DateTime?
-  finishTime         DateTime?
-  pickupTime         DateTime?
-  estimateHours      String?
-  finishedBy         String?
-  onHold             String?
-  onHoldReason       String?
-  odometer           String?
-  comments           String?
-  notes              String?
-  tags               String?
-  invoiceNumber      String?
-  nextServiceDate    DateTime?
-  courtesyVehicle      Boolean?
-  invoiceToThirdParty      Boolean?
-  estimatedWorkHours      String?
-  hubodometer      String?
-  engineHours      String?
-  isBooking Boolean?
-  bookedBy           String?
-  createdBy          String?
-  assignedTo         String?
-  createdAt          DateTime
+  id                  Int       @id @default(autoincrement())
+  customerId          Int?
+  vehicleId           Int?
+  jobNumber           String?
+  status              String?
+  orderNumber         String?
+  keyTag              String?
+  vehicleNumber       String?
+  vehicle             String?
+  registrationNumber  String?
+  fleetNumber         String?
+  chassisNumber       String?
+  vin                 String?
+  jobName             String?
+  jobEmail            String?
+  jobPhone            String?
+  jobID               String?
+  jobType             String?
+  description         String?
+  time                DateTime?
+  finishTime          DateTime?
+  pickupTime          DateTime?
+  estimateHours       String?
+  finishedBy          String?
+  onHold              String?
+  onHoldReason        String?
+  odometer            String?
+  comments            String?
+  notes               String?
+  tags                String?
+  invoiceNumber       String?
+  nextServiceDate     DateTime?
+  courtesyVehicle     Boolean?
+  invoiceToThirdParty Boolean?
+  estimatedWorkHours  String?
+  hubodometer         String?
+  engineHours         String?
+  isBooking           Boolean?
+  bookedBy            String?
+  createdBy           String?
+  assignedTo          String?
+  createdAt           DateTime
 }
 
 model notes {
@@ -246,38 +245,38 @@ model notes {
   officeOnly Boolean
   createdAt  DateTime
   createdBy  String
-  status String?
+  status     String?
 }
 
 model invoices {
-  id         Int      @id @default(autoincrement())
-  customerId Int
-  type String
-  invoiceID String
-  invoiceNumber String?
-  reference String
-  payments Json
-  creditNotes Json
-  prepayments Json
-  overpayments Json
-  amountDue Float
-  amountPaid Float
-  amountCredited Float
-  isDiscounted Boolean
-  hasAttachments Boolean
-  invoiceAddresses Json
-  hasErrors Boolean
+  id                     Int       @id @default(autoincrement())
+  customerId             Int
+  type                   String
+  invoiceID              String
+  invoiceNumber          String?
+  reference              String
+  payments               Json
+  creditNotes            Json
+  prepayments            Json
+  overpayments           Json
+  amountDue              Float
+  amountPaid             Float
+  amountCredited         Float
+  isDiscounted           Boolean
+  hasAttachments         Boolean
+  invoiceAddresses       Json
+  hasErrors              Boolean
   invoicePaymentServices Json
-  contact Json
-  date DateTime
-  dueDate DateTime?
-  status String
-  lineAmountTypes Json
-  lineItems Json
-  subTotal Float
-  totalTax Float
-  total Float
-  updatedDateUTC DateTime
+  contact                Json
+  date                   DateTime
+  dueDate                DateTime?
+  status                 String
+  lineAmountTypes        Json
+  lineItems              Json
+  subTotal               Float
+  totalTax               Float
+  total                  Float
+  updatedDateUTC         DateTime
 
   // invoiceNumber String?
   // orderNumber String?
@@ -335,27 +334,36 @@ model invoices {
   @@unique([invoiceID])
 }
 
-
-
-
-
-
-
-
-
-
 model invoicePayments {
-  id         Int      @id @default(autoincrement())
-  paymentNumber String?
-  reference String?
-  invoiceNumber String?
-  invoiceIssueDate DateTime?
-  date DateTime?
-  customer String?
-  amount String?
-  paymentType String?
+  id                    Int       @id @default(autoincrement())
+  paymentNumber         String?
+  reference             String?
+  invoiceNumber         String?
+  invoiceIssueDate      DateTime?
+  date                  DateTime?
+  customer              String?
+  amount                String?
+  paymentType           String?
   originalPaymentNumber String?
-  createdAt DateTime
+  createdAt             DateTime
 }
 
-
+model lineItems {
+  id          Int    @id @default(autoincrement())
+  itemCode    String?
+  description String
+  unitAmount  Float
+  taxType     String?
+  taxAmount   Float?
+  lineAmount  Float
+  accountCode String?
+  quantity    Int
+  lineItemID  String
+  accountID   String?
+  itemID    String?
+  name      String?
+  code      String?
+  invoiceID String
+  date      DateTime
+  @@unique([lineItemID])
+}

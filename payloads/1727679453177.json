@@ -1,0 +1,25 @@
+{
+  "events": [
+    {
+      "resourceUrl": "https://api.xero.com/api.xro/2.0/Invoices/2b4187af-f3b0-4095-8593-059068ce7571",
+      "resourceId": "2b4187af-f3b0-4095-8593-059068ce7571",
+      "tenantId": "1cbcc41d-efa5-445b-82d1-1407b5a1604b",
+      "tenantType": "ORGANISATION",
+      "eventCategory": "INVOICE",
+      "eventType": "UPDATE",
+      "eventDateUtc": "2024-09-30T06:57:23.519"
+    },
+    {
+      "resourceUrl": "https://api.xero.com/api.xro/2.0/Invoices/5e6a5fc9-367c-4d14-92ae-ed8ed5999a4a",
+      "resourceId": "5e6a5fc9-367c-4d14-92ae-ed8ed5999a4a",
+      "tenantId": "1cbcc41d-efa5-445b-82d1-1407b5a1604b",
+      "tenantType": "ORGANISATION",
+      "eventCategory": "INVOICE",
+      "eventType": "UPDATE",
+      "eventDateUtc": "2024-09-30T06:57:23.519"
+    }
+  ],
+  "firstEventSequence": 177,
+  "lastEventSequence": 178,
+  "entropy": "ZHOUYCABIZFGERVNHUTN"
+}

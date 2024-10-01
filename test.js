@@ -98,40 +98,42 @@ async function run(){
   // for(let row of data.Invoices){
   //   updateInvoice(row)
   // }
-
-  const byStatus = await prisma.invoices.groupBy({
-    by: ['status'],
-    _sum: {
-      subTotal: true,
-    },
-  })
   let date = new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000)
-  const byUser = await prisma.invoices.groupBy({
-    by: ['customerId', 'status'],
-    _sum: {
-      subTotal: true,
-    },
-    _count: {
-      id: true
-    },
-    where: {
-      status: {not: "VOIDED"},
-      date: {gt: date}
-    }
-  })
-  const result = await prisma.$queryRaw`SELECT count(*), sum("subTotal"), status, "customerId" FROM invoices where date > ${date} group by "customerId", status`
-  let customerIds = [...new Set(result.map(r => "" + r.customerId))].join(",")
-  let sql = `SELECT distinct on ("customerId") contact, "customerId" FROM invoices where "customerId" in (${customerIds})`
-  const result2 = await prisma.$queryRawUnsafe(sql)
-  let data = result2.map(row => {
-    let { contact, customerId } = row
-    let ret = { ...contact, customerId, total: 0 }
-    for (let r2 of result.filter(r => r.customerId === customerId)) {
-      ret[r2.status] = r2.sum
-      ret.total += r2.sum
-    }
-    return ret
-  })
+  const invoices = await prisma.invoices.findMany({where: {date: {gt: date}}})
+
+  // const byStatus = await prisma.invoices.groupBy({
+  //   by: ['status'],
+  //   _sum: {
+  //     subTotal: true,
+  //   },
+  // })
+  // let date = new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000)
+  // const byUser = await prisma.invoices.groupBy({
+  //   by: ['customerId', 'status'],
+  //   _sum: {
+  //     subTotal: true,
+  //   },
+  //   _count: {
+  //     id: true
+  //   },
+  //   where: {
+  //     status: {not: "VOIDED"},
+  //     date: {gt: date}
+  //   }
+  // })
+  // const result = await prisma.$queryRaw`SELECT count(*), sum("subTotal"), status, "customerId" FROM invoices where date > ${date} group by "customerId", status`
+  // let customerIds = [...new Set(result.map(r => "" + r.customerId))].join(",")
+  // let sql = `SELECT distinct on ("customerId") contact, "customerId" FROM invoices where "customerId" in (${customerIds})`
+  // const result2 = await prisma.$queryRawUnsafe(sql)
+  // let data = result2.map(row => {
+  //   let { contact, customerId } = row
+  //   let ret = { ...contact, customerId, total: 0 }
+  //   for (let r2 of result.filter(r => r.customerId === customerId)) {
+  //     ret[r2.status] = r2.sum
+  //     ret.total += r2.sum
+  //   }
+  //   return ret
+  // })
 
 
   debugger

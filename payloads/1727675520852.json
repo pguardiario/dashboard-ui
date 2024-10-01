@@ -1,0 +1,16 @@
+{
+  "events": [
+    {
+      "resourceUrl": "https://api.xero.com/api.xro/2.0/Invoices/9d8c597e-091e-4eae-9145-2eb12611a567",
+      "resourceId": "9d8c597e-091e-4eae-9145-2eb12611a567",
+      "tenantId": "1cbcc41d-efa5-445b-82d1-1407b5a1604b",
+      "tenantType": "ORGANISATION",
+      "eventCategory": "INVOICE",
+      "eventType": "UPDATE",
+      "eventDateUtc": "2024-09-30T05:51:52.85"
+    }
+  ],
+  "firstEventSequence": 127,
+  "lastEventSequence": 127,
+  "entropy": "XRQGHRUAIPJYEAWFCPRZ"
+}

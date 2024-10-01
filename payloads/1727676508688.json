@@ -1,0 +1,52 @@
+{
+  "events": [
+    {
+      "resourceUrl": "https://api.xero.com/api.xro/2.0/Invoices/6a6cd217-32a6-4bf8-b569-627709ce78dd",
+      "resourceId": "6a6cd217-32a6-4bf8-b569-627709ce78dd",
+      "tenantId": "1cbcc41d-efa5-445b-82d1-1407b5a1604b",
+      "tenantType": "ORGANISATION",
+      "eventCategory": "INVOICE",
+      "eventType": "CREATE",
+      "eventDateUtc": "2024-09-30T06:07:20.976"
+    },
+    {
+      "resourceUrl": "https://api.xero.com/api.xro/2.0/Invoices/6a6cd217-32a6-4bf8-b569-627709ce78dd",
+      "resourceId": "6a6cd217-32a6-4bf8-b569-627709ce78dd",
+      "tenantId": "1cbcc41d-efa5-445b-82d1-1407b5a1604b",
+      "tenantType": "ORGANISATION",
+      "eventCategory": "INVOICE",
+      "eventType": "UPDATE",
+      "eventDateUtc": "2024-09-30T06:07:22.902"
+    },
+    {
+      "resourceUrl": "https://api.xero.com/api.xro/2.0/Invoices/4e5a487a-5a89-418f-9c9c-4ad640cff86d",
+      "resourceId": "4e5a487a-5a89-418f-9c9c-4ad640cff86d",
+      "tenantId": "1cbcc41d-efa5-445b-82d1-1407b5a1604b",
+      "tenantType": "ORGANISATION",
+      "eventCategory": "INVOICE",
+      "eventType": "CREATE",
+      "eventDateUtc": "2024-09-30T06:07:25.73"
+    },
+    {
+      "resourceUrl": "https://api.xero.com/api.xro/2.0/Invoices/dc0851de-24eb-492f-b8b1-112fc169e0e4",
+      "resourceId": "dc0851de-24eb-492f-b8b1-112fc169e0e4",
+      "tenantId": "1cbcc41d-efa5-445b-82d1-1407b5a1604b",
+      "tenantType": "ORGANISATION",
+      "eventCategory": "INVOICE",
+      "eventType": "CREATE",
+      "eventDateUtc": "2024-09-30T06:07:33.209"
+    },
+    {
+      "resourceUrl": "https://api.xero.com/api.xro/2.0/Invoices/afcc3fff-7ceb-4d31-82ff-d11f206d2556",
+      "resourceId": "afcc3fff-7ceb-4d31-82ff-d11f206d2556",
+      "tenantId": "1cbcc41d-efa5-445b-82d1-1407b5a1604b",
+      "tenantType": "ORGANISATION",
+      "eventCategory": "INVOICE",
+      "eventType": "CREATE",
+      "eventDateUtc": "2024-09-30T06:07:55.947"
+    }
+  ],
+  "firstEventSequence": 152,
+  "lastEventSequence": 156,
+  "entropy": "QITSKTCPZRVIQZTPXBRO"
+}
