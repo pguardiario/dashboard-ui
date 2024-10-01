@@ -99,15 +99,16 @@ async function run(){
   //   updateInvoice(row)
   // }
   let date = new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000)
-  const items = await prisma.lineItems.findMany({where: {date: {gt: date}}})
+  const items = await prisma.lineItems.findMany({where: {date: {gt: date}, tireId: {not: null}}})
   let ret = items.reduce((acc, item) => {
     if(!acc.find(row => row.name === item.name)){
-      acc.push({...item, count: 1})
+      acc.push({...item, count: 0})
     }
-    let oldItem = acc.find(row => row.name === item.name)
-    oldItem.count += 1
+    acc.find(row => row.name === item.name).count += item.quantity
+    // oldItem.count += 1
     return acc
   }, [])
+  let tires = await prisma.tires.findMany({where: {id: {in: ret.map(r => r.tireId)}}})
 
   // const byStatus = await prisma.invoices.groupBy({
   //   by: ['status'],
@@ -145,6 +146,10 @@ async function run(){
 
   // select count(*), name, sum("unitAmount") from "lineItems" where date > '2024-08-01' group by name;
 
+  let mapped = ret.map(r => {
+    let tire = tires.find(t => t.itemNumber === r.code)
+    return {...r, tire}
+  })
 
   debugger
 }

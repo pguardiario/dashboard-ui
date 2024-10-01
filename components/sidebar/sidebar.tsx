@@ -19,6 +19,10 @@ import { FilterIcon } from "../icons/sidebar/filter-icon";
 import { useSidebarContext } from "../layout/layout-context";
 import { ChangeLogIcon } from "../icons/sidebar/changelog-icon";
 import { usePathname } from "next/navigation";
+import { PiTireThin, PiUserCircleLight, PiKanbanThin, PiWrenchThin, PiWarehouseThin } from "react-icons/pi";
+
+
+
 
 export const SidebarWrapper = () => {
   const pathname = usePathname();
@@ -52,28 +56,36 @@ export const SidebarWrapper = () => {
               <SidebarItem
                 isActive={pathname === "/jobs"}
                 title="Jobs"
-                icon={<AccountsIcon />}
-                href="jobs"
+                icon={<PiWrenchThin size={24}/>}
+                href="/jobs"
               />
 
 
               <SidebarItem
                 isActive={pathname === "/diary"}
                 title="Diary"
-                icon={<PaymentsIcon />}
-                href="diary"
+                icon={<PiKanbanThin size={24}/>}
+                href="/diary"
               />
               <SidebarItem
                 isActive={pathname === "/datire"}
                 title="Datire"
                 icon={<PaymentsIcon />}
-                href="datire"
+                href="/datire"
               />
               <SidebarItem
                 isActive={pathname === "reports/users"}
                 title="Reports / Users"
-                icon={<PaymentsIcon />}
-                href="reports/users"
+                icon={<PiUserCircleLight size={24}/>}
+
+
+                href="/reports/users"
+              />
+              <SidebarItem
+                isActive={pathname === "reports/products"}
+                title="Reports / Tyres"
+                icon={<PiTireThin size={24}/>}
+                href="/reports/products"
               />
               <CollapseItems
                 icon={<BalanceIcon />}
@@ -101,8 +113,8 @@ export const SidebarWrapper = () => {
               <SidebarItem
                 isActive={pathname === "/suppliers"}
                 title="Suppliers"
-                icon={<DevIcon />}
-                href="suppliers"
+                icon={<PiWarehouseThin size={24}/>}
+                href="/suppliers"
               />
               {/* <SidebarItem
                 isActive={pathname === "/view"}
