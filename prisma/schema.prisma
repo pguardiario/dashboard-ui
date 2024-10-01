@@ -349,7 +349,8 @@ model invoicePayments {
 }
 
 model lineItems {
-  id          Int    @id @default(autoincrement())
+  id          Int      @id @default(autoincrement())
+  tireId      Int?
   itemCode    String?
   description String
   unitAmount  Float
@@ -360,10 +361,11 @@ model lineItems {
   quantity    Int
   lineItemID  String
   accountID   String?
-  itemID    String?
-  name      String?
-  code      String?
-  invoiceID String
-  date      DateTime
+  itemID      String?
+  name        String?
+  code        String?
+  invoiceID   String
+  date        DateTime
+
   @@unique([lineItemID])
 }

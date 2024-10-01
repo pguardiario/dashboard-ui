@@ -74,7 +74,16 @@ async function updateLineItem(lineItem, invoiceID, date){
     return
   }
 
+  let tireId
+  if(code){
+    tire = await prisma.tires.findFirst({where: {itemNumber: code}})
+    if(tire){
+      tireId = tire.id
+    }
+  }
+
   record = await prisma.lineItems.create({data: {
+    tireId,
     itemCode,
     description,
     unitAmount,
@@ -247,7 +256,7 @@ async function syncInvoice(invoice) {
 
 async function run() {
   const { access_token, expires_at } = await xero.getClientCredentialsToken()
-  for (let i = 32; i < 9999; i++) {
+  for (let i = 1; i < 9999; i++) {
     console.log(i)
     let data = await fetch(`https://api.xero.com/api.xro/2.0/Invoices?page=${i}&pageSize=100`, {
       headers: {
