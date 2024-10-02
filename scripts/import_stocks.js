@@ -85,7 +85,7 @@ async function run() {
     item.alertQuantity = item.alertQuantity ? Number(item.alertQuantity) : null
     item.reorderQuantity = item.reorderQuantity ? Number(item.reorderQuantity) : null
 
-
+if(!item.alertQuantity) continue
 
     item.priceLevel2 = item.priceLevel2 ? Number(item.priceLevel2) : null
     item.priceLevel3 = item.priceLevel3 ? Number(item.priceLevel3) : null
