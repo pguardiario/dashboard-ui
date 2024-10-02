@@ -417,7 +417,7 @@ model stocks {
   isnondiscount             String?
   deactivated               String?
   stockAlert                String?
-  alertQuantity             Int
+  alertQuantity             Int?
   reorderQuantity           Float?
   maximumQuantity           String?
   priceGroup                String?
