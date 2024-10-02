@@ -108,7 +108,14 @@ async function run(){
     // oldItem.count += 1
     return acc
   }, [])
+
   let tires = await prisma.tires.findMany({where: {id: {in: ret.map(r => r.tireId)}}})
+
+  let mapped = ret.map(r => {
+    let tire = tires.find(t => t.itemNumber === r.code)
+    return {...r, tire}
+  })
+
 
   // const byStatus = await prisma.invoices.groupBy({
   //   by: ['status'],
@@ -146,10 +153,6 @@ async function run(){
 
   // select count(*), name, sum("unitAmount") from "lineItems" where date > '2024-08-01' group by name;
 
-  let mapped = ret.map(r => {
-    let tire = tires.find(t => t.itemNumber === r.code)
-    return {...r, tire}
-  })
 
   debugger
 }

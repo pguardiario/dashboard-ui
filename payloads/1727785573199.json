@@ -1,0 +1,34 @@
+{
+  "events": [
+    {
+      "resourceUrl": "https://api.xero.com/api.xro/2.0/Invoices/549348b4-614f-444e-b68f-0d2950e71844",
+      "resourceId": "549348b4-614f-444e-b68f-0d2950e71844",
+      "tenantId": "1cbcc41d-efa5-445b-82d1-1407b5a1604b",
+      "tenantType": "ORGANISATION",
+      "eventCategory": "INVOICE",
+      "eventType": "UPDATE",
+      "eventDateUtc": "2024-10-01T12:26:02.637"
+    },
+    {
+      "resourceUrl": "https://api.xero.com/api.xro/2.0/Invoices/b7d9cfed-4867-4413-9641-413e6495570e",
+      "resourceId": "b7d9cfed-4867-4413-9641-413e6495570e",
+      "tenantId": "1cbcc41d-efa5-445b-82d1-1407b5a1604b",
+      "tenantType": "ORGANISATION",
+      "eventCategory": "INVOICE",
+      "eventType": "UPDATE",
+      "eventDateUtc": "2024-10-01T12:26:02.279"
+    },
+    {
+      "resourceUrl": "https://api.xero.com/api.xro/2.0/Invoices/10e029b0-3708-4300-a981-c2f08f48e846",
+      "resourceId": "10e029b0-3708-4300-a981-c2f08f48e846",
+      "tenantId": "1cbcc41d-efa5-445b-82d1-1407b5a1604b",
+      "tenantType": "ORGANISATION",
+      "eventCategory": "INVOICE",
+      "eventType": "UPDATE",
+      "eventDateUtc": "2024-10-01T12:26:02.434"
+    }
+  ],
+  "firstEventSequence": 284,
+  "lastEventSequence": 286,
+  "entropy": "LNVNXPUMRXWOFZUXPUCO"
+}

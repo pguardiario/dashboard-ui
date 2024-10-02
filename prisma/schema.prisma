@@ -369,3 +369,62 @@ model lineItems {
 
   @@unique([lineItemID])
 }
+
+model stocks {
+  id                        Int     @id @default(autoincrement())
+  uuid                      String?
+  stockNumber               String?
+  suppliers                 String?
+  firstSupplierStockNumber  String?
+  barcode                   String?
+  category                  String?
+  name                      String?
+  saleDescription           String?
+  taxable                   String?
+  purchaseDescription       String?
+  buyPrice                  Float?
+  sellPrice                 Float?
+  markupPercentage          String?
+  unitPriceIncludeGST       Float?
+  quantity                  Float?
+  defaultInvoiceQuantity    String?
+  allocated                 Float?
+  available                 Float?
+  ordered                   Float?
+  averageBuyPrice           Float?
+  totalValue                Float?
+  location                  String?
+  bin                       String?
+  brand                     String?
+  model                     String?
+  size                      String?
+  weight                    String?
+  priceLevel2               Float?
+  priceLevel3               Float?
+  priceLevel4               Float?
+  priceLevel5               Float?
+  priceLevel6               Float?
+  priceLevel7               Float?
+  tags                      String?
+  salesAccount              String?
+  salesAccountCode          String?
+  purchaseAccount           String?
+  purchaseAccountCode       String?
+  inventoryAssetAccount     String?
+  inventoryAssetAccountCode String?
+  specification             String?
+  isnonstock                String?
+  isnondiscount             String?
+  deactivated               String?
+  stockAlert                String?
+  alertQuantity             Int
+  reorderQuantity           Float?
+  maximumQuantity           String?
+  priceGroup                String?
+  lastSalesDate             String?
+  lastPurchaseDate          DateTime?
+  createdAt                 DateTime?
+  attachments               String?
+
+  @@unique([uuid])
+}

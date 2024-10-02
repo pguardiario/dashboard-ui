@@ -1,0 +1,16 @@
+{
+  "events": [
+    {
+      "resourceUrl": "https://api.xero.com/api.xro/2.0/Invoices/7e8fe56b-8da6-4da8-8c6d-0fbd15439eb5",
+      "resourceId": "7e8fe56b-8da6-4da8-8c6d-0fbd15439eb5",
+      "tenantId": "1cbcc41d-efa5-445b-82d1-1407b5a1604b",
+      "tenantType": "ORGANISATION",
+      "eventCategory": "INVOICE",
+      "eventType": "CREATE",
+      "eventDateUtc": "2024-10-01T22:19:51.689"
+    }
+  ],
+  "firstEventSequence": 294,
+  "lastEventSequence": 294,
+  "entropy": "NKIVTADMTGIGIOZWWZHK"
+}
