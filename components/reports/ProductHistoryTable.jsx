@@ -20,8 +20,6 @@ import {
   DateRangePicker,
 } from "@nextui-org/react";
 import { SearchIcon } from "@/components/icons/searchicon";
-import { DeleteIcon } from "@/components/icons/DeleteIcon";
-import { EditIcon } from "@/components/icons/EditIcon";
 import { ChevronDownIcon } from "@/components/icons/sidebar/chevron-down-icon";
 import toast from "react-hot-toast";
 import { capitalize } from "@/helpers/utils";
@@ -33,14 +31,15 @@ import { parseDate } from "@internationalized/date";
 import Link from "next/link";
 
 const columns = [
-  { key: "name", label: "Name" },
-  { key: "count", label: "Amount Sold" },
-  { key: "unitAmount", label: "Unit Amount" },
+  { key: "customer", label: "Customer" },
+  { key: "date", label: "Date" },
+  { key: "invoiceID", label: "Invoice ID" },
   // { key: "description", label: "Description"},
 
-  { key: "cost", label: "Unit Cost" },
-  { key: "totalValue", label: "Total Value" },
-  { key: "totalCost", label: "Total Cost" },
+  { key: "quantity", label: "Quantity" },
+  { key: "lineAmount", label: "Line Amount" },
+  // { key: "totalValue", label: "Total Value" },
+  // { key: "totalCost", label: "Total Cost" },
   { key: "category", label: "Category", sortable: true },
 
   { key: "supplier", label: "Supplier" },
@@ -51,6 +50,7 @@ const columns = [
 ];
 
 
+
 let aud = new Intl.NumberFormat('en-AU', {
   style: 'currency',
   currency: 'AUD',
@@ -59,14 +59,17 @@ let aud = new Intl.NumberFormat('en-AU', {
 
 // The formated version of 14340 is
 
-export default function ProductsTable() {
+export default function ProductsHistoryTable({rows}) {
   const { collapsed, setCollapsed } = useSidebarContext();
-  const [rows, setRows] = useState([])
+
   const [dates, setDates] = useState({ from: new Date(new Date() - 30 * 24 * 60 * 60 * 1000), to: new Date() })
   const [filterValue, setFilterValue] = React.useState("");
   const [selectedKeys, setSelectedKeys] = React.useState(new Set([]));
 
-  const INITIAL_VISIBLE_COLUMNS = ["name", "count", "unitAmount", "cost", "totalValue", "totalCost", "category", "supplier", "brand", "available"]
+  const INITIAL_VISIBLE_COLUMNS = ["customer", "date", "invoiceID", "quantity", "lineAmount"]
+  // , "unitAmount", "cost", "totalValue", "totalCost", "category", "supplier", "brand", "available"
+
+
 
   const [visibleColumns, setVisibleColumns] = React.useState(new Set(INITIAL_VISIBLE_COLUMNS));
 
@@ -78,10 +81,7 @@ export default function ProductsTable() {
   });
   const [page, setPage] = React.useState(1);
 
-  useEffect(() => {
-    let { to, from } = dates
-    fetch(`/api/reports/products?from=${from.toISOString()}&to=${to.toISOString()}`).then(r => r.json()).then(setRows)
-  }, [dates])
+  let name = rows.length ? rows[0].name : ""
 
   let statuses = [...new Set(rows.map(r => r.category))].filter(Boolean)
   const statusOptions = statuses.map(s => {
@@ -92,7 +92,16 @@ export default function ProductsTable() {
     const cellValue = row[columnKey];
 
     switch (columnKey) {
+      case "customer":
+        return row.invoice.contact.Name
+      case "date":
+        return new Date(row.date).toLocaleDateString()
+      case "invoiceID":
+        return row.invoiceID
+      case "quantity":
+        return row.quantity
 
+      case "lineAmount":
       case "unitAmount":
         return cellValue ? aud.format(cellValue) : 0
       case "cost":
@@ -140,7 +149,7 @@ export default function ProductsTable() {
 
     if (hasSearchFilter) {
       filteredRows = filteredRows.filter((row) =>
-        row.name?.toLowerCase().includes(filterValue.toLowerCase()),
+        row.invoice.contact.Name?.toLowerCase().includes(filterValue.toLowerCase()),
       );
     }
     if (statusFilter !== "all" && Array.from(statusFilter).length !== statusOptions.length) {
@@ -196,7 +205,7 @@ export default function ProductsTable() {
               base: "w-full sm:max-w-[44%]",
               inputWrapper: "border-1",
             }}
-            placeholder="Search by name..."
+            placeholder="Search by customer..."
             size="sm"
             startContent={<SearchIcon className="text-default-300" />}
             value={filterValue}
@@ -205,7 +214,7 @@ export default function ProductsTable() {
             onValueChange={onSearchChange}
           />
           <div className="flex gap-3">
-            <Dropdown>
+            {/* <Dropdown>
               <DropdownTrigger className="hidden sm:flex">
                 <Button
                   endContent={<ChevronDownIcon className="text-small" />}
@@ -229,7 +238,7 @@ export default function ProductsTable() {
                   </DropdownItem>
                 ))}
               </DropdownMenu>
-            </Dropdown>
+            </Dropdown> */}
             <Dropdown>
               <DropdownTrigger className="hidden sm:flex">
                 <Button
@@ -329,23 +338,15 @@ export default function ProductsTable() {
 
   return <div className={`${collapsed ? "" : "ml-[250px]"} p-6 space-y-3`}>
     <div className="flex items-center">
-      <h1 className="text-xl font-bold flex-1">Tyre Report</h1>
-      <DateRangePicker
-        label="Select a Date Range"
-        defaultValue={{
-          start: parseDate(dates.from.toISOString().replace(/T.*/, '')),
-          end: parseDate(dates.to.toISOString().replace(/T.*/, '')),
-        }}
-        onChange={({ start, end }) => setDates({ from: start.toDate(), to: end.toDate() })}
-        className="max-w-xs"
-      />
+      <h1 className="text-xl font-bold flex-1">History for {name}</h1>
+
     </div>
 
     <hr />
     {/* {suppliers.map((supplier, i) => <div key={i}>
       <Link target="_blank" href={supplier.website} className="hover:bg-blue-200 px-4">{supplier.supplier}</Link>
     </div>)} */}
-
+{/* {JSON.stringify(rows[0])} */}
 <Table
       isCompact
       removeWrapper

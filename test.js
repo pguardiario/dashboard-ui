@@ -98,24 +98,42 @@ async function run(){
   // for(let row of data.Invoices){
   //   updateInvoice(row)
   // }
-  let date = new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000)
-  const items = await prisma.lineItems.findMany({where: {date: {gt: date}, tireId: {not: null}}})
-  let ret = items.reduce((acc, item) => {
-    if(!acc.find(row => row.name === item.name)){
-      acc.push({...item, count: 0})
-    }
-    acc.find(row => row.name === item.name).count += item.quantity
-    // oldItem.count += 1
-    return acc
-  }, [])
+  // let date = new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000)
+  // const items = await prisma.lineItems.findMany({where: {date: {gt: date}, tireId: {not: null}}})
+  // let ret = items.reduce((acc, item) => {
+  //   if(!acc.find(row => row.name === item.name)){
+  //     acc.push({...item, count: 0})
+  //   }
+  //   acc.find(row => row.name === item.name).count += item.quantity
+  //   // oldItem.count += 1
+  //   return acc
+  // }, [])
 
-  let tires = await prisma.tires.findMany({where: {id: {in: ret.map(r => r.tireId)}}})
+  // let tires = await prisma.tires.findMany({where: {id: {in: ret.map(r => r.tireId)}}})
+  // let stocks = await prisma.stocks.findMany({where: {stockNumber: {in: ret.map(r => r.code)}}})
+  // let suppliers = await prisma.accounts.findMany()
 
-  let mapped = ret.map(r => {
-    let tire = tires.find(t => t.itemNumber === r.code)
-    return {...r, tire}
+  // let mapped = ret.map(r => {
+  //   let tire = tires.find(t => t.itemNumber === r.code)
+  //   let website = suppliers.find(s => s.supplier === tire.supplier)?.website
+  //   let {category, available} = stocks.find(s => s.stockNumber === r.code) || {}
+  //   return {...r, tire, category, available, website}
+  // })
+
+  let tire = await prisma.tires.findFirst({where: {id: 18901}})
+  let lineItems = await prisma.lineItems.findMany({where: {code: tire.itemNumber}})
+  let invoices = await prisma.invoices.findMany({where: {invoiceID: {in: lineItems.map(l => l.invoiceID)}}})
+  let stock = await prisma.stocks.findFirst({where: {stockNumber: tire.itemNumber}})
+  let supplier = await prisma.accounts.findFirst({where: {supplier: tire.supplier}})
+  let mapped = lineItems.map(l => {
+    let invoice = invoices.find(i => i.invoiceID === l.invoiceID)
+
+    let {category, available} = stock || {}
+    let website = supplier?.website
+    return {...l, invoice, tire, category, available, website}
   })
 
+  debugger
 
   // const byStatus = await prisma.invoices.groupBy({
   //   by: ['status'],

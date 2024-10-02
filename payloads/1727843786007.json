@@ -1,0 +1,16 @@
+{
+  "events": [
+    {
+      "resourceUrl": "https://api.xero.com/api.xro/2.0/Contacts/1ef4f693-c092-4465-bb42-cffa53377749",
+      "resourceId": "1ef4f693-c092-4465-bb42-cffa53377749",
+      "tenantId": "1cbcc41d-efa5-445b-82d1-1407b5a1604b",
+      "tenantType": "ORGANISATION",
+      "eventCategory": "CONTACT",
+      "eventType": "UPDATE",
+      "eventDateUtc": "2024-10-02T04:36:20.145"
+    }
+  ],
+  "firstEventSequence": 336,
+  "lastEventSequence": 336,
+  "entropy": "ISTQSQTRECPYBOYKAXHS"
+}
