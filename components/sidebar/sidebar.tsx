@@ -19,7 +19,7 @@ import { FilterIcon } from "../icons/sidebar/filter-icon";
 import { useSidebarContext } from "../layout/layout-context";
 import { ChangeLogIcon } from "../icons/sidebar/changelog-icon";
 import { usePathname } from "next/navigation";
-import { PiTireThin, PiUserCircleLight, PiKanbanThin, PiWrenchThin, PiWarehouseThin } from "react-icons/pi";
+import { PiTireThin, PiUserCircleLight, PiKanbanThin, PiWrenchThin, PiWarehouseThin, PiInvoiceThin } from "react-icons/pi";
 
 
 
@@ -60,6 +60,12 @@ export const SidebarWrapper = () => {
                 href="/jobs"
               />
 
+              <SidebarItem
+                isActive={pathname === "/invoices"}
+                title="Invoices"
+                icon={<PiInvoiceThin size={24}/>}
+                href="/invoices"
+              />
 
               <SidebarItem
                 isActive={pathname === "/diary"}

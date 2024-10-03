@@ -11,6 +11,7 @@ import { Link } from "@nextui-org/react";
 import NextLink from "next/link";
 import { useSidebarContext } from "@/components/layout/layout-context";
 import JobsTable from "@/components/jobs/JobsTable"
+import InvoicesTable from "@/components/invoices/InvoicesTable"
 const Chart = dynamic(
   () => import("../charts/steam").then((mod) => mod.Steam),
   {
@@ -69,7 +70,7 @@ export const Content = () => {
         </div>
         <div className="p-6">
           <h1 className="text-xl font-bold">Invoices</h1>
-          <p>Coming Soon</p>
+          <InvoicesTable isCompact={true}/>
         </div>
         <div className="p-6">
           <h1 className="text-xl font-bold">Bookings</h1>
