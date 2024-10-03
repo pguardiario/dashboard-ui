@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
 import prisma from "@/src/db"
 import { createHmac } from "crypto"
-const fs = require('fs')
+import {doWebhook} from "@/src/sync"
+// const fs = require('fs')
 
 export async function GET(req) {
   console.log('get')
@@ -31,7 +32,9 @@ export async function POST(req) {
   if(headers['x-xero-signature'] === computedSignature){
     let data = JSON.parse(buffer)
     let ts = new Date().getTime()
-    fs.writeFileSync(`payloads/${ts}.json`, JSON.stringify(data, null, 2))
+    await doWebhook(data)
+    console.log('webhook ok')
+    // fs.writeFileSync(`payloads/${ts}.json`, JSON.stringify(data, null, 2))
     // debugger
     return NextResponse.json({ok: true});
   } else {

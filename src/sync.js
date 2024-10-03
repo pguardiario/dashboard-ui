@@ -1,11 +1,12 @@
 // import jwtDecode from 'jwt-decode';
 // import { XeroClient } from 'xero-node'
-require('dotenv').config()
-const fs = require('fs')
+// require('dotenv').config()
+// const fs = require('fs')
 const jwtDecode = require('jwt-decode')
 const { XeroClient } = require('xero-node')
 const { PrismaClient } = require('@prisma/client')
 const prisma = new PrismaClient()
+const { globSync } = require('glob')
 
 const xero = new XeroClient({
   clientId: process.env.XERO_CLIENT_ID,
@@ -66,9 +67,6 @@ async function updateLineItem(lineItem, invoiceID, date){
   } = item || {}
 
   let record = await prisma.lineItems.findFirst({where: {lineItemID}})
-  if(record){
-    return
-  }
 
   if(!unitAmount || !description){
     return
@@ -82,24 +80,46 @@ async function updateLineItem(lineItem, invoiceID, date){
     }
   }
 
-  record = await prisma.lineItems.create({data: {
-    tireId,
-    itemCode,
-    description,
-    unitAmount,
-    taxType,
-    taxAmount,
-    lineAmount,
-    accountCode,
-    quantity,
-    lineItemID,
-    accountID,
-    itemID,
-    name,
-    code,
-    invoiceID,
-    date,
-  }})
+  if(record){
+    record = await prisma.lineItems.update({ where: {id: record.id}, data: {
+      tireId,
+      itemCode,
+      description,
+      unitAmount,
+      taxType,
+      taxAmount,
+      lineAmount,
+      accountCode,
+      quantity,
+      lineItemID,
+      accountID,
+      itemID,
+      name,
+      code,
+      invoiceID,
+      date,
+    }})
+  } else {
+    record = await prisma.lineItems.create({data: {
+      tireId,
+      itemCode,
+      description,
+      unitAmount,
+      taxType,
+      taxAmount,
+      lineAmount,
+      accountCode,
+      quantity,
+      lineItemID,
+      accountID,
+      itemID,
+      name,
+      code,
+      invoiceID,
+      date,
+    }})
+  }
+
   return record
 }
 
@@ -144,9 +164,6 @@ async function syncInvoice(invoice) {
   }
 
   let record = await prisma.invoices.findFirst({ where: { invoiceID } })
-  if (record) {
-    return
-  }
 
   // let customer2 = await prisma.customers.findFirst({where: {uuid: invoice.Contact.ContactID}})
   // return
@@ -156,6 +173,12 @@ async function syncInvoice(invoice) {
   }
 
   let customerId = customer.id
+  payments = payments || []
+  creditNotes = creditNotes || []
+  prepayments = prepayments || []
+  overpayments = overpayments || []
+  amountCredited = amountCredited || 0
+  invoiceAddresses = invoiceAddresses || []
 
   let invoiceData = {
     customerId,
@@ -191,6 +214,9 @@ async function syncInvoice(invoice) {
   if (record) {
     record = await prisma.invoices.update({ where: { id: record.id }, data: invoiceData })
   } else {
+    if(!payments){
+      return
+    }
     record = await prisma.invoices.create({ data: invoiceData })
   }
 
@@ -283,4 +309,55 @@ async function run() {
 
 }
 
-run()
+async function doWebhooks(){
+
+  // the main glob() and globSync() resolve/return array of filenames
+
+  // all js files, but don't look in node_modules
+  const files = globSync('payloads/*.json')
+  const { access_token, expires_at } = await xero.getClientCredentialsToken()
+
+  for(let file of files){
+    let data = JSON.parse(fs.readFileSync(file))
+    for(let event of data.events){
+      if(event.eventCategory === "INVOICE"){
+        let json = await fetch(event.resourceUrl, {
+          headers: {
+            "Authorization": `Bearer ${access_token}`,
+            "Accept": "application/json"
+          }
+        }).then(r => r.json())
+        for(let row of json.Invoices){
+          await syncInvoice(row)
+        }
+      }
+    }
+    fs.unlinkSync(file)
+  }
+
+
+
+
+  debugger
+}
+// run()
+// doWebhooks()
+
+async function doWebhook(data){
+  const { access_token, expires_at } = await xero.getClientCredentialsToken()
+  for(let event of data.events){
+    if(event.eventCategory === "INVOICE"){
+      let json = await fetch(event.resourceUrl, {
+        headers: {
+          "Authorization": `Bearer ${access_token}`,
+          "Accept": "application/json"
+        }
+      }).then(r => r.json())
+      for(let row of json.Invoices){
+        await syncInvoice(row)
+      }
+    }
+  }
+}
+
+module.exports = {doWebhook}
