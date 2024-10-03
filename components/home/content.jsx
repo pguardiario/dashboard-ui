@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import { TableWrapper } from "../table/table";
 import CreateJobCard from "@/components/common/createJobCard";
@@ -19,6 +19,13 @@ const Chart = dynamic(
   }
 );
 
+const Bar = dynamic(
+  () => import("@/components/charts/Bar").then((mod) => mod.Bar),
+  {
+    ssr: false,
+  }
+);
+
 
 
 
@@ -27,7 +34,11 @@ const Chart = dynamic(
 
 export const Content = () => {
   const { collapsed, setCollapsed } = useSidebarContext();
+  const [bar, setBar] = useState()
 
+  useEffect(() => {
+    fetch(`/api/charts/bar/inventory`).then(r => r.json()).then(setBar)
+  }, [])
 
   return (
     <div className={`${collapsed ? "" : "ml-[250px]" } p-6`}>
@@ -50,6 +61,7 @@ export const Content = () => {
               <Chart />
             </div>
           </div>
+
         </div>
 
         {/* Left Section */}
@@ -60,6 +72,9 @@ export const Content = () => {
             <CardTransactions />
           </div>
         </div> */}
+      </div>
+      <div className="grid lg:grid-cols-2 gap-3 p-6">
+        {bar && <Bar series={bar.series} categories={bar.categories}/>}
       </div>
 
       {/* Table Latest Users */}

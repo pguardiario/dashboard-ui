@@ -120,20 +120,20 @@ async function run(){
   //   return {...r, tire, category, available, website}
   // })
 
-  let tire = await prisma.tires.findFirst({where: {id: 18901}})
-  let lineItems = await prisma.lineItems.findMany({where: {code: tire.itemNumber}})
-  let invoices = await prisma.invoices.findMany({where: {invoiceID: {in: lineItems.map(l => l.invoiceID)}}})
-  let stock = await prisma.stocks.findFirst({where: {stockNumber: tire.itemNumber}})
-  let supplier = await prisma.accounts.findFirst({where: {supplier: tire.supplier}})
-  let mapped = lineItems.map(l => {
-    let invoice = invoices.find(i => i.invoiceID === l.invoiceID)
+  // let tire = await prisma.tires.findFirst({where: {id: 18901}})
+  // let lineItems = await prisma.lineItems.findMany({where: {code: tire.itemNumber}})
+  // let invoices = await prisma.invoices.findMany({where: {invoiceID: {in: lineItems.map(l => l.invoiceID)}}})
+  // let stock = await prisma.stocks.findFirst({where: {stockNumber: tire.itemNumber}})
+  // let supplier = await prisma.accounts.findFirst({where: {supplier: tire.supplier}})
+  // let mapped = lineItems.map(l => {
+  //   let invoice = invoices.find(i => i.invoiceID === l.invoiceID)
 
-    let {category, available} = stock || {}
-    let website = supplier?.website
-    return {...l, invoice, tire, category, available, website}
-  })
+  //   let {category, available} = stock || {}
+  //   let website = supplier?.website
+  //   return {...l, invoice, tire, category, available, website}
+  // })
 
-  debugger
+  // debugger
 
   // const byStatus = await prisma.invoices.groupBy({
   //   by: ['status'],
@@ -169,7 +169,26 @@ async function run(){
   //   return ret
   // })
 
-  // select count(*), name, sum("unitAmount") from "lineItems" where date > '2024-08-01' group by name;
+  // select count(*), name, sum("amountPaid") from invoices where date > '2023-08-01' group by name;
+  let result = await prisma.$queryRaw`SELECT DATE_TRUNC('month', date) AS month, COUNT(id) AS count, sum("amountPaid") as paid, sum("amountDue") as due FROM invoices  where date > '2023-08-01' GROUP BY DATE_TRUNC('month', date)`
+  result.sort((a, b) => a.month - b.month)
+  let paid = []
+  let due = [], month=[]
+  for(let row of result.slice(-12)){
+    // let {month, paid, due, count} = row
+    paid.push(Number(row.paid))
+    due.push(Number(row.due))
+    debugger
+  }
+
+
+  let series = [{
+    name: 'Paid',
+    data: paid
+  }, {
+    name: 'Due',
+    data: due
+  }]
 
 
   debugger
