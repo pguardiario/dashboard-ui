@@ -15,7 +15,7 @@ export const Layout = ({ children }: Props) => {
   const [_, setLocked] = useLockedBody(false);
   const handleToggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
-    setLocked(!sidebarOpen);
+    setLocked(false);
   };
 
   return (

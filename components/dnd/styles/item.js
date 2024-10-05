@@ -41,36 +41,36 @@ const CloneBadge = styled.div`
   align-items: center;
 `;
 
-const Container = styled.a`
-  border-radius: ${borderRadius}px;
-  border: 2px solid transparent;
-  border-color: ${(props) => getBorderColor(props.isDragging, props.colors)};
-  background-color: ${(props) =>
-    getBackgroundColor(props.isDragging, props.isGroupedOver, props.colors)};
-  box-shadow: ${({ isDragging }) => (isDragging ? `2px 2px 1px #A5ADBA` : 'none')};
-  box-sizing: border-box;
-  padding: ${grid}px;
-  min-height: ${imageSize}px;
-  margin-bottom: ${grid}px;
-  user-select: none;
+// const Container = styled.a`
+//   border-radius: ${borderRadius}px;
+//   border: 2px solid transparent;
+//   border-color: ${(props) => getBorderColor(props.isDragging, props.colors)};
+//   background-color: ${(props) =>
+//     getBackgroundColor(props.isDragging, props.isGroupedOver, props.colors)};
+//   box-shadow: ${({ isDragging }) => (isDragging ? `2px 2px 1px #A5ADBA` : 'none')};
+//   box-sizing: border-box;
+//   padding: ${grid}px;
+//   min-height: ${imageSize}px;
+//   margin-bottom: ${grid}px;
+//   user-select: none;
 
-  /* anchor overrides */
-  color: #091e42;
+//   /* anchor overrides */
+//   color: #091e42;
 
-  &:hover,
-  &:active {
-    color: #091e42;
-    text-decoration: none;
-  }
+//   &:hover,
+//   &:active {
+//     color: #091e42;
+//     text-decoration: none;
+//   }
 
-  &:focus {
-    outline: none;
-    box-shadow: none;
-  }
+//   &:focus {
+//     outline: none;
+//     box-shadow: none;
+//   }
 
-  /* flexbox */
-  display: flex;
-`;
+//   /* flexbox */
+//   display: flex;
+// `;
 
 // const Avatar = styled.img`
 //   width: ${imageSize}px;
@@ -81,50 +81,50 @@ const Container = styled.a`
 //   flex-grow: 0;
 // `;
 
-const Content = styled.div`
-  /* flex child */
-  flex-grow: 1;
-  /*
-    Needed to wrap text in ie11
-    https://stackoverflow.com/questions/35111090/why-ie11-doesnt-wrap-the-text-in-flexbox
-  */
-  flex-basis: 100%;
-  /* flex parent */
-  display: flex;
-  flex-direction: column;
-`;
+// const Content = styled.div`
+//   /* flex child */
+//   flex-grow: 1;
+//   /*
+//     Needed to wrap text in ie11
+//     https://stackoverflow.com/questions/35111090/why-ie11-doesnt-wrap-the-text-in-flexbox
+//   */
+//   flex-basis: 100%;
+//   /* flex parent */
+//   display: flex;
+//   flex-direction: column;
+// `;
 
-const BlockQuote = styled.div`
-  &::before {
-    content: open-quote;
-  }
-  &::after {
-    content: close-quote;
-  }
-`;
+// const BlockQuote = styled.div`
+//   &::before {
+//     content: open-quote;
+//   }
+//   &::after {
+//     content: close-quote;
+//   }
+// `;
 
-const Footer = styled.div`
-  display: flex;
-  margin-top: ${grid}px;
-  align-items: center;
-`;
+// const Footer = styled.div`
+//   display: flex;
+//   margin-top: ${grid}px;
+//   align-items: center;
+// `;
 
-const Author = styled.small`
-  flex-grow: 0;
-  margin: 0;
-  border-radius: ${borderRadius}px;
-  font-weight: normal;
-  padding: ${grid / 2}px;
-`;
+// const Author = styled.small`
+//   flex-grow: 0;
+//   margin: 0;
+//   border-radius: ${borderRadius}px;
+//   font-weight: normal;
+//   padding: ${grid / 2}px;
+// `;
 
-const QuoteId = styled.small`
-  flex-grow: 1;
-  flex-shrink: 1;
-  margin: 0;
-  font-weight: normal;
-  text-overflow: ellipsis;
-  text-align: right;
-`;
+// const QuoteId = styled.small`
+//   flex-grow: 1;
+//   flex-shrink: 1;
+//   margin: 0;
+//   font-weight: normal;
+//   text-overflow: ellipsis;
+//   text-align: right;
+// `;
 
 function getStyle(provided, style) {
   if (!style) {
@@ -150,7 +150,7 @@ function QuoteItem(props) {
   const [card, setCard] = useState(0)
 
   // return <div className="bg-red-400">{quote.id}</div>
-
+  let bg
   return <>
     {card > 0 && <KanbanCard/>}
     <div
@@ -171,7 +171,7 @@ function QuoteItem(props) {
         e.stopPropagation()
         setCard(card + 1)
       }}
-      className={`${quote.status === "finished" ? "bg-green-200 border-green-600" : "bg-blue-200 border-blue-600"} border p-2 my-2 rounded`}
+      className={`${quote.status === "finished" ? "bg-green-200 border-green-600" : `${quote.type === "note" ? "bg-yellow-200 border-yellow-600" : "bg-blue-200 border-blue-600"}`} border p-2 my-2 rounded`}
     >
 
       {isClone ? <CloneBadge>Clone</CloneBadge> : null}

@@ -55,13 +55,12 @@ export const Content = () => {
           </div>
 
           {/* Chart */}
-          <div className="h-full flex flex-col gap-2">
+          {/* <div className="h-full flex flex-col gap-2">
             <h3 className="text-xl font-semibold">Statistics</h3>
             <div className="w-full bg-default-50 shadow-lg rounded-2xl p-6 ">
               <Chart />
             </div>
-          </div>
-
+          </div> */}
         </div>
 
         {/* Left Section */}
@@ -78,24 +77,23 @@ export const Content = () => {
       </div>
 
       {/* Table Latest Users */}
-      <div className="grid lg:grid-cols-2 gap-3 p-6">
-        <div className="p-6">
+      <div className="grid lg:grid-cols-2 gap-2 p-6">
+        <div className="p-6 overflow-hidden">
           <h1 className="text-xl font-bold">Jobs</h1>
           <JobsTable initData={[]} isCompact={true}/>
         </div>
-        <div className="p-6">
+        <div className="p-6 overflow-hidden">
           <h1 className="text-xl font-bold">Invoices</h1>
           <InvoicesTable isCompact={true}/>
         </div>
-        <div className="p-6">
+        <div className="p-6 overflow-hidden">
           <h1 className="text-xl font-bold">Bookings</h1>
           <p>Coming Soon</p>
         </div>
-        <div className="p-6">
+        <div className="p-6 overflow-hidden">
           <h1 className="text-xl font-bold">Jobs Again</h1>
           <JobsTable initData={[]} isCompact={true}/>
         </div>
-
       </div>
 
 

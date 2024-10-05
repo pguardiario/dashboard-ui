@@ -15,7 +15,7 @@ export async function GET(req) {
     paid.push(Number(row.paid))
     due.push(Number(row.due))
     months.push(row.month.toString().split(' ')[1])
-    debugger
+    // debugger
   }
 
   let series = [{

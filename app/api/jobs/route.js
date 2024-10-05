@@ -4,14 +4,27 @@ import {getUser} from "@/src/token"
 
 export async function GET(req) {
   let user = await getUser(req)
+  let where = { status: {not: "deleted"} }
+  if(req.nextUrl.searchParams.get("week") === "1"){
+    where.time = {gt: new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000)}
+  }
   const jobs = await prisma.jobs.findMany({
-    where: { status: {not: "deleted"} },
+    where,
     orderBy:[
       {
         createdAt: "desc"
       }
     ]
   })
+
+  let customerIds = [...new Set(jobs.map(j => j.customerId))]
+  const customers = await prisma.customers.findMany({where: {id: {in: customerIds}}})
+  let vehicleIds = [...new Set(jobs.map(j => j.vehicleId))]
+  const vehicles = await prisma.vehicles.findMany({where: {id: {in: vehicleIds}}})
+  for(let job of jobs){
+    job.vehicle = vehicles.find(v =>v.id === job.vehicleId)
+    job.customer = customers.find(v =>v.id === job.customerId)
+  }
   return NextResponse.json(jobs)
 }
 

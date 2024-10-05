@@ -6,7 +6,7 @@ export async function POST(req) {
   let body = await req.json()
   let user = await getUser(req)
 
-  debugger
+  // debugger
 
   let {
     startDate,

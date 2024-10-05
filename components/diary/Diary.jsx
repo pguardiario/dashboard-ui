@@ -5,17 +5,21 @@ import { useSidebarContext } from "@/components/layout/layout-context";
 
 import Board from '@/components/dnd/board/Board';
 import { ChevronDownIcon } from "@/components/icons/sidebar/chevron-down-icon";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CreateJobCard from "@/components/common/createJobCard";
 
 
 
 export default function Diary({ initData }) {
-  let {notes, data} = initData
+  let { notes, data } = initData
   const { collapsed, setCollapsed } = useSidebarContext();
   const [statusFilter, setStatusFilter] = useState("all");
   const [statuses, setStatuses] = useState(["new", "finished"]);
 
+  const [jobs, setJobs] = useState([])
+  useEffect(() => {
+    fetch(`/api/jobs?week=1`).then(r => r.json()).then(setJobs)
+  }, [])
 
 
   let {
@@ -45,22 +49,42 @@ export default function Diary({ initData }) {
     exclude_job_on_hold_from_daily_workload,
     all_days,
     bookings,
-    jobs,
+    // jobs,
     // notes
   } = data
 
   let fromDate = new Date(from)
   let toDate = new Date(to)
 
+  let keys = [0,1,2,3,4,5,6].map(n => new Date(new Date().getTime() - n * 24 * 60 * 60 * 1000).toDateString().slice(4, -5)).reduce((acc, key) => {
+    let date = new Date(key + ' ' + new Date().getFullYear())
+    acc[key] = notes.filter(n => {
+      return n.endDate >= date && n.startDate <= date// new Date(n.endDate) < date
+    }).map(n => {
+
+
+      return {
+        status: "new",
+        time: n.startDate,
+        description: "",
+        name: n.note,
+        createdBy: n.createdBy,
+        type: "note"
+      }
+    })
+
+    return acc
+  }, {})
+
   let map = jobs.reduce((acc, b) => {
     let { time, id } = b
-    let key = new Date(time).toDateString()
+    let key = new Date(time).toDateString().slice(4, -5)
     if (!acc[key]) {
       acc[key] = []
     }
     acc[key].push({ ...b, id: "G" + id })
     return acc
-  }, {})
+  }, keys)
 
 
 
@@ -84,6 +108,7 @@ export default function Diary({ initData }) {
     }
   ]
 
+
   let filtered = Object.keys(map).reduce((acc, key) => {
     acc[key] = map[key].filter(r => statuses.includes(r.status))
     return acc
@@ -95,13 +120,14 @@ export default function Diary({ initData }) {
   return <div className={`${collapsed ? "" : "ml-[250px]"} p-6 space-y-3`}>
     <h1>Diary</h1>
     <hr />
-    {/* {JSON.stringify(notes)} */}
+    {/* {JSON.stringify(notes[0])} */}
+    {/* {JSON.stringify(Object.keys(filtered).map(k => filtered[k]).flat()[0])} */}
 
     <div className="flex itens-center space-x-3">
       <div className="flex-1">
         <p className="font-bold">{numJobs} jobs</p>
       </div>
-      <CreateJobCard label="New Job"/>
+      <CreateJobCard label="New Job" />
       <div className="">
         <Dropdown>
           <DropdownTrigger className="hidden sm:flex">
