@@ -84,11 +84,9 @@ export default function Diary({ initData }) {
     if (!acc[key]) {
       acc[key] = []
     }
-    acc[key].push({ ...b, id: "G" + id })
+    acc[key].push({ ...b, id: "" + id })
     return acc
   }, keys)
-
-
 
   const capitalize = s => {
     return s ? s[0].toUpperCase() + s.slice(1) : ""
@@ -99,8 +97,6 @@ export default function Diary({ initData }) {
     paused: "danger",
     vacation: "warning",
   };
-
-
 
   const statusOptions = [
     {
@@ -125,15 +121,27 @@ export default function Diary({ initData }) {
       let newNotes = notes.map(note => {
         if(note.id === job.id){
           // alert(n.id)
-          return {...note, ...data}
+          return {...note}
+          // return {...note, ...data}
         } else {
           return {...note}
         }
       })
       setNotes(newNotes)
-      console.log(newNotes.map(n => n.note))
+
     } else {
-      // alert("x" + job.type)
+      let newJobs = jobs.map(oldJob => {
+        console.log(oldJob.id === job.id)
+        if(oldJob.id === job.id){
+          // alert(n.id)
+          console.log("found")
+          return {...oldJob, ...data}
+        } else {
+          return {...oldJob}
+        }
+      })
+      setJobs(newJobs)
+
     }
   }
 

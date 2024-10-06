@@ -1,5 +1,6 @@
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure } from "@nextui-org/react";
 import NoteContent from "@/components/common/modal/NoteContent"
+import JobContent from "@/components/common/modal/JobContent"
 import { capitalize } from "@/helpers/utils";
 
 export default function KanbanCard({job, callback}) {
@@ -15,10 +16,10 @@ export default function KanbanCard({job, callback}) {
     <ModalContent>
       {(onClose) => (
         <>
-          <ModalHeader className="flex flex-col gap-1">Edit {capitalize(job.type)}</ModalHeader>
+          <ModalHeader className="flex flex-col gap-1">Edit {capitalize(job.type || "job")}</ModalHeader>
           <ModalBody>
             {job.type === "note" && <NoteContent note={job} onClose={onClose} callback={callback}/>}
-            {job.type !== "note" && "Coming Soon"}
+            {job.type !== "note" && <JobContent job={job} onClose={onClose} callback={callback} label="Edit Job"/>}
 
           </ModalBody>
           {/* <ModalFooter></ModalFooter> */}
