@@ -53,6 +53,7 @@ const Container = styled.div``;
 /* stylelint-enable */
 
 const InnerQuoteList = React.memo(function InnerQuoteList(props) {
+  const {itemCallback} = props
   return props.quotes.map((quote, index) => (
     <Draggable key={quote.id} draggableId={quote.id} index={index}>
       {(dragProvided, dragSnapshot) => (
@@ -62,6 +63,7 @@ const InnerQuoteList = React.memo(function InnerQuoteList(props) {
           isDragging={dragSnapshot.isDragging}
           isGroupedOver={Boolean(dragSnapshot.combineTargetFor)}
           provided={dragProvided}
+          itemCallback={itemCallback}
         />
       )}
     </Draggable>
@@ -69,14 +71,14 @@ const InnerQuoteList = React.memo(function InnerQuoteList(props) {
 });
 
 function InnerList(props) {
-  const { quotes, dropProvided } = props;
+  const { quotes, dropProvided, itemCallback } = props;
   const title = props.title ? <Title>{props.title}</Title> : null;
 
   return (
     <Container>
       {title}
       <DropZone ref={dropProvided.innerRef}>
-        <InnerQuoteList quotes={quotes} />
+        <InnerQuoteList quotes={quotes} itemCallback={itemCallback}/>
         {dropProvided.placeholder}
       </DropZone>
     </Container>
@@ -96,6 +98,7 @@ export default function QuoteList(props) {
     quotes,
     title,
     useClone,
+    itemCallback
   } = props;
 
   return (
@@ -128,10 +131,10 @@ export default function QuoteList(props) {
         >
           {internalScroll ? (
             <ScrollContainer style={scrollContainerStyle}>
-              <InnerList quotes={quotes} title={title} dropProvided={dropProvided} />
+              <InnerList quotes={quotes} title={title} dropProvided={dropProvided} itemCallback={itemCallback}/>
             </ScrollContainer>
           ) : (
-            <InnerList quotes={quotes} title={title} dropProvided={dropProvided} />
+            <InnerList quotes={quotes} title={title} dropProvided={dropProvided}  itemCallback={itemCallback}/>
           )}
         </Wrapper>
       )}

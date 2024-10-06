@@ -20,5 +20,14 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/", "/accounts", "/login", "/register"],
+  // matcher: ["/", "/accounts", "/login", "/register"],
+
+  matcher: [
+    /*
+     * Match all request paths except for the ones starting with:
+     * - api (API routes)
+     * - favicon.ico (favicon file)
+     */
+    '/((?!proxy|favicon.ico).*)', "/accounts", "/login", "/register"
+  ],
 };

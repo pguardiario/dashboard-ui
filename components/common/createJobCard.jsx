@@ -74,7 +74,7 @@ function VehiclesSelect({ vehicles, onChange }) {
   );
 }
 
-export default function CreateJobCard({label, isBooking, button, job}) {
+export default function CreateJobCard({label, isBooking, button, job, children}) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [tab, setTab] = useState()
   const [vehicles, setVehicles] = useState([])
@@ -172,7 +172,7 @@ export default function CreateJobCard({label, isBooking, button, job}) {
   return (
     <>
 
-      <Button onPress={onOpen}  color={button ? "" : "primary"}>{button ? button : label}</Button>
+      <Button onPress={onOpen}  color={button ? "" : "primary"}>{button ? button : label}{children}</Button>
 
       <Modal
         isOpen={isOpen}

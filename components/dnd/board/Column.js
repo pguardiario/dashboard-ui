@@ -27,7 +27,7 @@ const Header = styled.div`
   }
 `;
 
-const Column = ({title, quotes, index, isScrollable, isCombineEnabled, useClone, onClick}) => {
+const Column = ({title, quotes, index, isScrollable, isCombineEnabled, useClone, onClick, itemCallback}) => {
 
   // const title = props.title;
   // const quotes = props.quotes;
@@ -55,6 +55,7 @@ const Column = ({title, quotes, index, isScrollable, isCombineEnabled, useClone,
             }}
             quotes={quotes}
             internalScroll={isScrollable}
+            itemCallback={itemCallback}
             isCombineEnabled={Boolean(isCombineEnabled)}
             useClone={Boolean(useClone)}
           />

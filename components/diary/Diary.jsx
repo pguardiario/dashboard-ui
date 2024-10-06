@@ -5,13 +5,14 @@ import { useSidebarContext } from "@/components/layout/layout-context";
 
 import Board from '@/components/dnd/board/Board';
 import { ChevronDownIcon } from "@/components/icons/sidebar/chevron-down-icon";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import CreateJobCard from "@/components/common/createJobCard";
 
 
 
 export default function Diary({ initData }) {
-  let { notes, data } = initData
+  let { data } = initData
+  let [notes, setNotes] = useState(initData?.notes || [])
   const { collapsed, setCollapsed } = useSidebarContext();
   const [statusFilter, setStatusFilter] = useState("all");
   const [statuses, setStatuses] = useState(["new", "finished"]);
@@ -64,6 +65,7 @@ export default function Diary({ initData }) {
 
 
       return {
+        ...n,
         status: "new",
         time: n.startDate,
         description: "",
@@ -117,6 +119,26 @@ export default function Diary({ initData }) {
 
   let numJobs = Object.keys(filtered).map(k => filtered[k]).flat().length
 
+  let itemCallback = (job, data) => {
+    console.log({job, data})
+    if(job.type === "note"){
+      let newNotes = notes.map(note => {
+        if(note.id === job.id){
+          // alert(n.id)
+          return {...note, ...data}
+        } else {
+          return {...note}
+        }
+      })
+      setNotes(newNotes)
+      console.log(newNotes.map(n => n.note))
+    } else {
+      // alert("x" + job.type)
+    }
+  }
+
+  let kanbanBoard = useMemo(() => <Board key={new Date().getTime()} statuses={statuses} initial={filtered} itemCallback={itemCallback}/>, [jobs, notes])
+
   return <div className={`${collapsed ? "" : "ml-[250px]"} p-6 space-y-3`}>
     <h1>Diary</h1>
     <hr />
@@ -164,7 +186,7 @@ export default function Diary({ initData }) {
       <Link target="_blank" href={supplier.website} className="hover:bg-blue-200 px-4">{supplier.supplier}</Link>
     </div>)} */}
 
-    <Board key={numJobs} statuses={statuses} initial={filtered} />
+    {kanbanBoard}
     {/* <pre>{JSON.stringify(map, null, 2)}</pre> */}
     {/* <pre>{JSON.stringify(bookings[0], null, 2)}</pre> */}
     {/* <pre>{JSON.stringify(boardData.medium, null, 2)}</pre>

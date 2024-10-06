@@ -4,7 +4,8 @@ import { borderRadius, grid } from './constants';
 import {Card, CardHeader, CardBody, CardFooter, Avatar, Button} from "@nextui-org/react";
 import { format } from 'timeago.js';
 import KanbanCard from "@/components/common/KanbanCard"
-
+import CreateNote from "@/components/common/CreateNote";
+import CreateJobCard from '@/components/common/createJobCard';
 
 const getBackgroundColor = (isDragging, isGroupedOver, authorColors) => {
   if (isDragging) {
@@ -146,14 +147,18 @@ function getStyle(provided, style) {
 // will be using PureComponent
 
 function QuoteItem(props) {
-  const { quote, isDragging, isGroupedOver, provided, style, isClone, index } = props;
+  const { quote, isDragging, isGroupedOver, provided, style, isClone, index, type, itemCallback } = props;
   const [card, setCard] = useState(0)
 
   // return <div className="bg-red-400">{quote.id}</div>
   let bg
   return <>
-    {card > 0 && <KanbanCard/>}
-    <div
+    {card > 0 && <KanbanCard key={card} job={quote} callback={itemCallback}/>}
+    {/* {card > 0 && <CreateNote/>} */}
+{/* <CreateJobCard> */}
+{/* <CreateNote> */}
+
+  <div
       // href={quote.author.url}
       isDragging={isDragging}
       isGroupedOver={isGroupedOver}
@@ -191,6 +196,8 @@ function QuoteItem(props) {
       </div>
     </div>
     </div>
+    {/* </CreateNote> */}
+    {/* </CreateJobCard> */}
     </>
 }
 

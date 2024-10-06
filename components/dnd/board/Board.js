@@ -30,6 +30,7 @@ const Board = ({
   useClone,
   containerHeight,
   withScrollableColumns,
+  itemCallback,
   statuses
 }) => {
   const [columns, setColumns] = useState(initial);
@@ -121,6 +122,7 @@ const Board = ({
                   isScrollable={withScrollableColumns}
                   isCombineEnabled={isCombineEnabled}
                   useClone={useClone}
+                  itemCallback={itemCallback}
                   onClick={onClick}
                 />
               ))}
@@ -133,12 +135,12 @@ const Board = ({
   );
 };
 
-Board.defaultProps = {
-  isCombineEnabled: false
-};
+// Board.defaultProps = {
+//   isCombineEnabled: false
+// };
 
-Board.propTypes = {
-  isCombineEnabled: PropTypes.bool
-};
+// Board.propTypes = {
+//   isCombineEnabled: PropTypes.bool
+// };
 
 export default Board;
