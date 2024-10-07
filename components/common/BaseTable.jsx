@@ -150,7 +150,7 @@ export default function BaseTable({ rows:jobs, isCompact, initialVisibleColumns,
               >
                 {statusOptions.map((status) => (
                   <DropdownItem key={status.key} className="capitalize">
-                    {capitalize(status.label)}
+                    {status.label}
                   </DropdownItem>
                 ))}
               </DropdownMenu>

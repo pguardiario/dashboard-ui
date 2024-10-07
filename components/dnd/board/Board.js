@@ -93,8 +93,12 @@ const Board = ({
     setColumns(data.quoteMap);
   };
 
-  function onClick(){
-    setShowMenu(showMenu + 1)
+  function onClick(e){
+    if(!document.querySelector('[role="dialog"][data-open="true"]')){
+      console.log({e})
+      setShowMenu(showMenu + 1)
+    }
+
   }
 
   return (

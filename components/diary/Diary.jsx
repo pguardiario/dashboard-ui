@@ -121,8 +121,8 @@ export default function Diary({ initData }) {
       let newNotes = notes.map(note => {
         if(note.id === job.id){
           // alert(n.id)
-          return {...note}
-          // return {...note, ...data}
+          // return {...note}
+          return {...note, ...data}
         } else {
           return {...note}
         }

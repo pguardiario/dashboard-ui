@@ -160,8 +160,10 @@ function QuoteItem(props) {
 
   <div
       // href={quote.author.url}
-      isDragging={isDragging}
-      isGroupedOver={isGroupedOver}
+      // eslint-disable-next-line
+      // isDragging={isDragging}
+      // eslint-disable-next-line
+      // isGroupedOver={isGroupedOver}
       // isClone={isClone}
       // colors={quote.author.colors}
       ref={provided.innerRef}

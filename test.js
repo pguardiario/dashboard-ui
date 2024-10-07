@@ -21,8 +21,6 @@ async function xxx(){
     }
   })
 
-
-
   const decodedAccessToken = jwtDecode(tokenSet.access_token)
   debugger
 }
@@ -191,26 +189,49 @@ async function run(){
   //   data: due
   // }]
 
-  let where = { status: {not: "deleted"} }
-  where.time = {gt: new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000)}
-  const jobs = await prisma.jobs.findMany({
-    where,
+  // let where = { status: {not: "deleted"} }
+  // where.time = {gt: new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000)}
+  // const jobs = await prisma.jobs.findMany({
+  //   where,
+  //   orderBy:[
+  //     {
+  //       createdAt: "desc"
+  //     }
+  //   ]
+  // })
+
+  // let customerIds = [...new Set(jobs.map(j => j.customerId))]
+  // const customers = await prisma.customers.findMany({where: {id: {in: customerIds}}})
+  // let vehicleIds = [...new Set(jobs.map(j => j.vehicleId))]
+  // const vehicles = await prisma.vehicles.findMany({where: {id: {in: vehicleIds}}})
+  // for(let job of jobs){
+  //   job.vehicle = vehicles.find(v =>v.id === job.vehicleId)
+  //   job.customer = customers.find(v =>v.id === job.customerId)
+  // }
+
+  let customers = await prisma.customers.findMany({
+    // where: { status: {not: "deleted"} },
     orderBy:[
       {
-        createdAt: "desc"
+        // date: "desc"
       }
-    ]
+    ],
+    take: 50
   })
 
-  let customerIds = [...new Set(jobs.map(j => j.customerId))]
-  const customers = await prisma.customers.findMany({where: {id: {in: customerIds}}})
-  let vehicleIds = [...new Set(jobs.map(j => j.vehicleId))]
-  const vehicles = await prisma.vehicles.findMany({where: {id: {in: vehicleIds}}})
-  for(let job of jobs){
-    job.vehicle = vehicles.find(v =>v.id === job.vehicleId)
-    job.customer = customers.find(v =>v.id === job.customerId)
-  }
+  let balances = await prisma.$queryRaw`select "customerId", sum("amountDue") as balance from invoices group by "customerId"`
 
+  for(let row of customers){
+    row.balance = balances.find(b => b.customerId === row.id)?.balance || 0
+    switch(true){
+      case row.balance > 0: row.status = "hasBalance"; break
+      case !!row.isCompany || row.isCompany === "Y": row.status = "isCompany"; break
+      case !row.isCompany || row.isCompany === "N": row.status = "individualsOnly"; break
+      default:
+        debugger
+    }
+    console.log(row.status)
+  }
   debugger
 }
 
