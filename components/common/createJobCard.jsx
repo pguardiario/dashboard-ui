@@ -74,13 +74,13 @@ function VehiclesSelect({ vehicles, onChange }) {
   );
 }
 
-export default function CreateJobCard({label, isBooking, button, job, children}) {
+export default function CreateJobCard({label, isBooking, button, job, children, initOwner, initVehicle}) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [tab, setTab] = useState()
   const [vehicles, setVehicles] = useState([])
   const [showMoreOwner, setShowMoreOwner] = useState(false)
   const [showMoreVehicle, setShowMoreVehicle] = useState(false)
-  const [formData, setFormData] = useState({ owner: {}, vehicle: {}, job: {} })
+  const [formData, setFormData] = useState({ owner: initOwner || {}, vehicle: initVehicle || {}, job: {} })
 
   let ownerLabels = showMoreOwner ? ["Name", "Mobile", "Phone", "Email", "Address", "Suburb", "State", "Postcode", "Street Address", "Street Address Suburb", "Street Address State", "Street Address Postcode", , "Fax", "Price Level", "Payment Term"] : ["Name", "Mobile", "Phone", "Email", "Address", "Suburb", "State", "Postcode"]
 

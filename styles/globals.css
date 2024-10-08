@@ -11,3 +11,16 @@ body {
 * {
   box-sizing: border-box;
 }
+
+dl {
+  display: grid;
+  grid-template: 1fr / auto auto;
+  justify-content: start;
+}
+dt {
+  font-weight:bolder ;
+  text-align: right;
+}
+dd {
+  margin-left: 1ch;
+}

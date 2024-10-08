@@ -6,8 +6,9 @@ const Page = async ({ params }) => {
   let id = Number(params.id)
   let customer = await prisma.customers.findFirst({where: {id}})
   let invoices = await prisma.invoices.findMany({where: {customerId: customer.id}})
+  let vehicles = await prisma.vehicles.findMany({where: {customerId: customer.id}})
   return <Wrapper>
-    <Customer data={customer} invoices={invoices}/>
+    <Customer data={customer} invoices={invoices} vehicles={vehicles}/>
   </Wrapper>
 };
 

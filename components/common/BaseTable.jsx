@@ -23,12 +23,11 @@ import { ChevronDownIcon } from "@/components/icons/sidebar/chevron-down-icon";
 import toast from "react-hot-toast";
 
 import { capitalize } from "@/helpers/utils";
-import CreateJobCard from "@/components/common/createJobCard";
 
 
 
 
-export default function BaseTable({ rows:jobs, isCompact, initialVisibleColumns, statusOptions, ariaLabel, renderCell, columns, searchBy, searcher }) {
+export default function BaseTable({ rows, isCompact, initialVisibleColumns, statusOptions, ariaLabel, renderCell, columns, searchBy, searcher , rowType="row" }) {
 
   const [filterValue, setFilterValue] = React.useState("");
   const [selectedKeys, setSelectedKeys] = React.useState(new Set([]));
@@ -42,16 +41,16 @@ export default function BaseTable({ rows:jobs, isCompact, initialVisibleColumns,
     direction: "ascending",
   });
   const [page, setPage] = React.useState(1);
-  // const [jobs, setJobs] = useState(initData)
+  // const [rows, setRows] = useState(initData)
 
   // useEffect(() => {
   //   if(isCompact){
-  //     fetch("/api/jobs").then(r => r.json()).then(setJobs)
+  //     fetch("/api/rows").then(r => r.json()).then(setRows)
   //   }
   // }, [isCompact])
 
 
-  const pages = Math.ceil(jobs.length / rowsPerPage);
+  const pages = Math.ceil(rows.length / rowsPerPage);
 
   const hasSearchFilter = Boolean(filterValue);
 
@@ -62,22 +61,22 @@ export default function BaseTable({ rows:jobs, isCompact, initialVisibleColumns,
   }, [visibleColumns]);
 
   const filteredItems = React.useMemo(() => {
-    let filteredJobs = [...jobs];
+    let filteredRows = [...rows];
 
     if (hasSearchFilter) {
-      filteredJobs = searcher(filteredJobs, filterValue)
-      // filteredJobs.filter((job) =>
-      //   job.description?.toLowerCase().includes(filterValue.toLowerCase()),
+      filteredRows = searcher(filteredRows, filterValue)
+      // filteredRows.filter((row) =>
+      //   row.description?.toLowerCase().includes(filterValue.toLowerCase()),
       // );
     }
     if (statusFilter !== "all" && Array.from(statusFilter).length !== statusOptions.length) {
-      filteredJobs = filteredJobs.filter((job) =>
-        Array.from(statusFilter).includes(job.status),
+      filteredRows = filteredRows.filter((row) =>
+        Array.from(statusFilter).includes(row.status),
       );
     }
 
-    return filteredJobs;
-  }, [jobs, filterValue, statusFilter]);
+    return filteredRows;
+  }, [rows, filterValue, statusFilter]);
 
   const items = React.useMemo(() => {
     const start = (page - 1) * rowsPerPage;
@@ -185,7 +184,7 @@ export default function BaseTable({ rows:jobs, isCompact, initialVisibleColumns,
           </div>
         </div>
         <div className="flex justify-between items-center">
-          <span className="text-default-400 text-small">Total {jobs.length} jobs</span>
+          <span className="text-default-400 text-small">Total {rows.length} rows</span>
           <label className="flex items-center text-default-400 text-small">
             Rows per page:
             <select
@@ -206,7 +205,7 @@ export default function BaseTable({ rows:jobs, isCompact, initialVisibleColumns,
     visibleColumns,
     onSearchChange,
     onRowsPerPageChange,
-    jobs.length,
+    rows.length,
     hasSearchFilter,
   ]);
 
@@ -286,7 +285,7 @@ export default function BaseTable({ rows:jobs, isCompact, initialVisibleColumns,
           </TableColumn>
         )}
       </TableHeader>
-      <TableBody emptyContent={"No jobs found"} items={sortedItems}>
+      <TableBody emptyContent={"No rows found"} items={sortedItems}>
         {(item) => (
           <TableRow key={item.id}>
             {(columnKey) => <TableCell>{renderCell(item, columnKey)}</TableCell>}
